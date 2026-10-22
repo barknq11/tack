@@ -1,7 +1,7 @@
 {
   "name": "tack",
   "productName": "Tack",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A minimal, friendly Taskwarrior-style task manager",
   "main": "main.js",
   "author": "blissin",
@@ -19,17 +19,34 @@
   "build": {
     "appId": "io.github.barknq11.tack",
     "productName": "Tack",
-    "directories": { "output": "dist", "buildResources": "build" },
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
     "asar": false,
     "files": [
       "index.html",
       "main.js",
       "preload.js",
       "package.json",
-      { "from": "build", "to": ".", "filter": ["icon.ico", "icon.png"] }
+      {
+        "from": "build",
+        "to": ".",
+        "filter": [
+          "icon.ico",
+          "icon.png"
+        ]
+      }
     ],
     "win": {
-      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
       "icon": "build/icon.ico"
     },
     "nsis": {

@@ -286,6 +286,8 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
 .toast button { color: var(--bg); opacity: .7; font-weight: 600; padding: 3px 8px; border-radius: 6px; font-size: 12.5px; }
 .toast button:hover { opacity: 1; background: rgba(127,127,127,.2); }
 
+.offline-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 80; background: var(--red); color: #fff; font-weight: 600; font-size: 13px; padding: 10px 16px; text-align: center; }
+
 /* Right-click menu */
 .ctx { position: fixed; z-index: 70; min-width: 210px; max-width: 280px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 5px; font-size: 13px; outline: 0; animation: ctxIn .12s cubic-bezier(.2,.9,.3,1.2); }
 @keyframes ctxIn { from { opacity: 0; transform: scale(.96) translateY(-3px); } }
@@ -477,11 +479,21 @@ const DAY = 864e5;
 // In the desktop app, everything is saved to a file on disk (see main.js); in a browser, to localStorage.
 const disk = window.tackStore || null;
 const diskData = disk ? disk.load() : null;
+// In the desktop app without its data connection, never save anywhere (so nothing can replace your tasks)
+const disconnected = !disk && /Electron/.test(navigator.userAgent);
 const LS = disk
   ? { get(k, d) { return k in diskData ? diskData[k] : d; },
       set(k, v) { diskData[k] = v; try { return disk.set(k, v); } catch { return false; } } }
+  : disconnected
+  ? { get: (k, d) => d, set: () => false }
   : { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },
       set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } } };
+if (disconnected) addEventListener('DOMContentLoaded', () => {
+  const bar = document.createElement('div');
+  bar.className = 'offline-bar';
+  bar.textContent = 'Tack couldn’t open your saved tasks, so nothing is shown and nothing will be saved. Your tasks are safe on disk: close Tack and open it again.';
+  document.body.prepend(bar);
+});
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() :

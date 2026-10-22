@@ -19,6 +19,9 @@ To update, download the newer `Tack-Setup` and run it. Your tasks stay exactly a
 - Every install or update first copies your tasks to `backups\before-update-<date>.json`.
 - Uninstalling Tack never deletes your tasks.
 - If `store.json` is ever damaged or missing, Tack sets it aside and loads the newest good copy.
+- A save can never quietly drop tasks that are already on disk: if one would remove several at once, Tack keeps them and reloads.
+- If the window can't reach your data, Tack retries once, then shows a red warning and saves nothing.
+- `tack.log` in the same folder records each start (where it looked, how many tasks it found) and any errors.
 
 In the app: color dot (bottom-left) → **Where my tasks are saved** opens that folder. **Export tasks** saves a
 Taskwarrior-compatible JSON file, and **Import tasks** reads one (including `task export` output).

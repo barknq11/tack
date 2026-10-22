@@ -4,6 +4,8 @@
 //  - the version before the latest change is kept as store.prev.json
 //  - copied to backups\store-YYYY-MM-DD.json once a day (last 30 days kept)
 //  - if store.json is ever damaged, it's set aside (never deleted) and the newest good copy is used
+//  - a save can never quietly drop tasks that are already on disk (see keepTasksOnDisk)
+//  - what happens at startup is written to tack.log
 const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -12,7 +14,20 @@ const dataDir = process.env.TACK_DATA || path.join(app.getPath('appData'), 'Tack
 const storeFile = path.join(dataDir, 'store.json');
 const prevFile = path.join(dataDir, 'store.prev.json');
 const backupDir = path.join(dataDir, 'backups');
+const logFile = path.join(dataDir, 'tack.log');
 app.setPath('userData', path.join(dataDir, 'electron'));
+
+function log(message) {
+  try {
+    fs.mkdirSync(dataDir, { recursive: true });
+    if (fs.existsSync(logFile) && fs.statSync(logFile).size > 256 * 1024) {
+      const text = fs.readFileSync(logFile, 'utf8');
+      fs.writeFileSync(logFile, text.slice(text.length / 2));
+    }
+    fs.appendFileSync(logFile, `${new Date().toISOString()}  ${message}\n`);
+  } catch {}
+}
+const taskCount = s => Array.isArray(s?.['tack.tasks']) ? s['tack.tasks'].length : 'none';
 
 const listBackups = () => fs.existsSync(backupDir)
   ? fs.readdirSync(backupDir).filter(f => /^store-\d{4}-\d\d-\d\d\.json$/.test(f)).sort().reverse() : [];
@@ -28,8 +43,24 @@ function loadStore() {
   }
   return [{}, false]; // a brand-new install
 }
+// Safety net: if this save would remove two or more tasks that are on disk (or leave none at all),
+// something is out of sync, e.g. a window that never loaded your data. Keep those tasks instead.
+// Removing a single task (undoing an add) is normal and allowed; deleting a task never removes it from the list.
+function keepTasksOnDisk() {
+  let onDisk;
+  try { onDisk = JSON.parse(fs.readFileSync(storeFile, 'utf8'))['tack.tasks']; } catch { return false; }
+  if (!Array.isArray(onDisk) || !onDisk.length) return false;
+  const inMemory = Array.isArray(store['tack.tasks']) ? store['tack.tasks'] : [];
+  const have = new Set(inMemory.map(t => t.uuid));
+  const missing = onDisk.filter(t => !have.has(t.uuid));
+  if (!missing.length || (missing.length === 1 && inMemory.length)) return false;
+  store['tack.tasks'] = [...inMemory, ...missing];
+  log(`SAFEGUARD kept ${missing.length} task(s) that were on disk but missing from the app (app had ${inMemory.length})`);
+  return true;
+}
 function writeStore() {
   fs.mkdirSync(dataDir, { recursive: true });
+  const kept = keepTasksOnDisk();
   const tmp = storeFile + '.tmp';
   const fd = fs.openSync(tmp, 'w');
   fs.writeSync(fd, JSON.stringify(store));
@@ -38,6 +69,8 @@ function writeStore() {
   if (fs.existsSync(storeFile)) fs.copyFileSync(storeFile, prevFile);
   fs.renameSync(tmp, storeFile);
   dailyBackup();
+  // The window was showing an out-of-date list: reload it so you see everything
+  if (kept && win && !win.isDestroyed()) setImmediate(() => win.webContents.reload());
 }
 function dailyBackup() {
   if (!fs.existsSync(storeFile)) return;
@@ -50,6 +83,7 @@ function dailyBackup() {
 
 let store = {};
 let win, mini;
+let pageConnected = false;
 const icon = path.join(__dirname, 'icon.ico');
 
 function createWindow() {
@@ -65,6 +99,25 @@ function createWindow() {
   win.loadFile(path.join(__dirname, 'index.html'));
   win.once('ready-to-show', () => win.show());
   win.webContents.on('will-navigate', e => e.preventDefault());
+
+  // Self-heal: the page must ask for your data right after it loads. If it doesn't (it couldn't
+  // connect to the data file), reload it once; if it still can't, the page shows a warning and saves nothing.
+  const wc = win.webContents;
+  let reloads = 0;
+  wc.on('did-finish-load', () => {
+    pageConnected = false;
+    setTimeout(() => {
+      if (pageConnected || win.isDestroyed()) return;
+      log(`page did not connect to the data file${reloads ? ' after a reload' : '; reloading it'}`);
+      if (!reloads++) wc.reload();
+    }, 4000);
+  });
+  wc.on('preload-error', (e, file, err) => log(`preload error: ${err?.stack || err}`));
+  wc.on('render-process-gone', (e, d) => log(`page crashed: ${d.reason}`));
+  wc.on('console-message', (...args) => {
+    const d = args.length > 1 ? { level: args[1], message: args[2] } : args[0];
+    if (d.level === 3 || d.level === 'error') log(`page error: ${d.message}`);
+  });
 
   // The pinned "Running" mini window: a small always-on-top window the page fills itself
   win.webContents.setWindowOpenHandler(({ url, frameName }) => {
@@ -115,9 +168,14 @@ else {
   Menu.setApplicationMenu(null);
   let recovered;
   [store, recovered] = loadStore();
+  const size = fs.existsSync(storeFile) ? `${fs.statSync(storeFile).size} bytes` : 'missing';
+  log(`start v${app.getVersion()} | data ${storeFile} (${size}) | ${taskCount(store)} tasks loaded${recovered ? ' from a backup copy' : ''}`);
   if (recovered) writeStore(); // put the recovered copy back in place right away
 
-  ipcMain.on('store:load', e => { e.returnValue = store; });
+  ipcMain.on('store:load', e => {
+    if (e.sender === win?.webContents) { pageConnected = true; log(`page connected, ${taskCount(store)} tasks`); }
+    e.returnValue = store;
+  });
   ipcMain.on('store:set', (e, key, value) => {
     store[key] = value;
     try { writeStore(); e.returnValue = true; } catch (err) { console.error(err); e.returnValue = false; }
