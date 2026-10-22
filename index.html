@@ -45,6 +45,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 input, textarea { font: inherit; color: inherit; }
 ::selection { background: var(--accent-soft); }
 
+/* Scrollbars: hidden until you hover the scrolling area, then a slim rounded bar (accent when grabbed).
+   The script adds .sb to the area under the mouse; that redraws reliably in every window, unlike :hover. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+::-webkit-scrollbar-thumb { background: transparent; border: 3px solid transparent; border-radius: 10px; background-clip: padding-box; min-height: 36px; }
+:hover::-webkit-scrollbar-thumb, .sb::-webkit-scrollbar-thumb { background-color: color-mix(in srgb, var(--text) 20%, transparent); }
+::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--accent) 70%, transparent); border-width: 2px; }
+::-webkit-scrollbar-thumb:active { background-color: var(--accent); border-width: 2px; }
+
 .app { display: grid; grid-template-columns: 236px 1fr; height: 100vh; }
 
 /* Sidebar */
@@ -1794,6 +1804,7 @@ async function togglePin() {
   w.document.addEventListener('click', onMiniClick);
   w.document.addEventListener('keydown', onMiniKey);
   bindMenu(w.document);
+  trackScrollHover(w.document);
   pip = w;
   const unpinned = () => { if (pip !== w) return; pip = null; clearInterval(watch); applyLook(); };
   w.addEventListener('pagehide', unpinned);
@@ -1971,6 +1982,15 @@ function onContext(e) {
   }
   showMenu(e, appItems());
 }
+// Show the scrollbar of whichever scrolling area the mouse is over (see .sb in the CSS)
+const SCROLLERS = '#listWrap, .side-scroll, .d-body, .help-card, .m-list';
+function trackScrollHover(doc) {
+  const clear = keep => doc.querySelectorAll('.sb').forEach(x => x !== keep && x.classList.remove('sb'));
+  doc.addEventListener('mouseover', e => { const s = e.target.closest?.(SCROLLERS); clear(s); s?.classList.add('sb'); });
+  doc.documentElement.addEventListener('mouseleave', () => clear(null));
+}
+trackScrollHover(document);
+
 function bindMenu(doc) {
   doc.addEventListener('contextmenu', onContext);
   doc.addEventListener('keydown', onMenuKey, true);
