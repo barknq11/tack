@@ -1,0 +1,47 @@
+{
+  "name": "tack",
+  "productName": "Tack",
+  "version": "1.0.0",
+  "description": "A minimal, friendly Taskwarrior-style task manager",
+  "main": "main.js",
+  "author": "blissin",
+  "repository": "github:barknq11/tack",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "icon": "node build/make-icon.js",
+    "dist": "electron-builder --win nsis --publish never"
+  },
+  "devDependencies": {
+    "electron": "45.0.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "io.github.barknq11.tack",
+    "productName": "Tack",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "asar": false,
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "package.json",
+      { "from": "build", "to": ".", "filter": ["icon.ico", "icon.png"] }
+    ],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Tack",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
+      "include": "build/installer.nsh",
+      "artifactName": "Tack-Setup-${version}.exe"
+    }
+  }
+}

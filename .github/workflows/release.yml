@@ -1,0 +1,67 @@
+name: Build installer
+
+# Push a tag like v1.0.1 (matching "version" in package.json) to build Tack-Setup-<version>.exe
+# and publish it as a GitHub Release.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build the installer
+        run: npm run dist
+
+      # Install on a clean Windows machine with a pretend task file, and make sure
+      # installing, reinstalling and uninstalling never remove or change it.
+      - name: Test install keeps your tasks safe
+        shell: pwsh
+        run: |
+          $setup = (Get-ChildItem dist -Filter 'Tack-Setup-*.exe').FullName
+          $data = "$env:APPDATA\Tack"
+          New-Item -ItemType Directory -Force $data | Out-Null
+          '{"tack.tasks":[{"uuid":"test","description":"keep me","status":"pending","entry":0,"tags":[],"annotations":[],"depends":[]}]}' | Set-Content "$data\store.json" -NoNewline
+          $before = Get-FileHash "$data\store.json"
+
+          Start-Process $setup -ArgumentList '/S' -Wait
+          $exe = "$env:LOCALAPPDATA\Programs\Tack\Tack.exe"
+          if (-not (Test-Path $exe)) { throw "Tack.exe was not installed at $exe" }
+          Start-Process $setup -ArgumentList '/S' -Wait   # reinstall = update
+          if ((Get-FileHash "$data\store.json").Hash -ne $before.Hash) { throw 'store.json changed during install' }
+          if (-not (Get-ChildItem "$data\backups" -Filter 'before-update-*.json')) { throw 'no backup was made before installing' }
+
+          $uninstaller = Get-ChildItem "$env:LOCALAPPDATA\Programs\Tack" -Filter 'Uninstall*.exe' | Select-Object -First 1
+          Start-Process $uninstaller.FullName -ArgumentList '/S' -Wait
+          Start-Sleep 5
+          if ((Get-FileHash "$data\store.json").Hash -ne $before.Hash) { throw 'store.json was removed or changed by uninstall' }
+          Write-Host 'Install, update and uninstall all kept the task file intact.'
+
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $setup = (Get-ChildItem dist -Filter 'Tack-Setup-*.exe').FullName
+          gh release create "${{ github.ref_name }}" $setup --title "Tack ${{ github.ref_name }}" --notes "Download **$(Split-Path $setup -Leaf)** below and run it. Your tasks are kept safe across updates."
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Tack-Setup
+          path: dist/Tack-Setup-*.exe
+          if-no-files-found: ignore

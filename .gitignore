@@ -1,0 +1,7 @@
+node_modules/
+dist/
+build/tools/
+# Never commit task data or backups
+*.backup.json
+store*.json
+recovered-*.json
