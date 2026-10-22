@@ -84,7 +84,7 @@ function dailyBackup() {
 let store = {};
 let win, mini;
 let pageConnected = false;
-const icon = path.join(__dirname, 'icon.ico');
+const icon = path.join(__dirname, process.platform === 'win32' ? 'icon.ico' : 'icon.png');
 
 function createWindow() {
   const b = store['win.bounds'] || {};

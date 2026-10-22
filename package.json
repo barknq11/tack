@@ -1,16 +1,21 @@
 {
   "name": "tack",
   "productName": "Tack",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A minimal, friendly Taskwarrior-style task manager",
   "main": "main.js",
-  "author": "blissin",
+  "author": {
+    "name": "blissin",
+    "email": "138164480+barknq11@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/barknq11/tack",
   "repository": "github:barknq11/tack",
   "private": true,
   "scripts": {
     "start": "electron .",
     "icon": "node build/make-icon.js",
-    "dist": "electron-builder --win nsis --publish never"
+    "dist": "electron-builder --win nsis --publish never",
+    "dist:linux": "electron-builder --linux AppImage deb --publish never"
   },
   "devDependencies": {
     "electron": "45.0.0",
@@ -59,6 +64,33 @@
       "deleteAppDataOnUninstall": false,
       "include": "build/installer.nsh",
       "artifactName": "Tack-Setup-${version}.exe"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png",
+      "executableName": "tack",
+      "category": "Office",
+      "synopsis": "A minimal, friendly task manager",
+      "artifactName": "Tack-${version}-linux-${arch}.${ext}",
+      "desktop": {
+        "entry": {
+          "StartupWMClass": "Tack",
+          "Keywords": "tasks;todo;taskwarrior;"
+        }
+      }
     }
   }
 }

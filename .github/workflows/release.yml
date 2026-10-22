@@ -1,7 +1,7 @@
-name: Build installer
+name: Build installers
 
-# Push a tag like v1.0.1 (matching "version" in package.json) to build Tack-Setup-<version>.exe
-# and publish it as a GitHub Release.
+# Push a tag like v1.1.1 (matching "version" in package.json) to build the Windows installer and the
+# Linux .deb / .AppImage, test them, and publish them together as a GitHub Release.
 on:
   push:
     tags: ['v*']
@@ -11,16 +11,14 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-
       - run: npm ci
 
       - name: Build the installer
@@ -50,18 +48,75 @@ jobs:
           if ((Get-FileHash "$data\store.json").Hash -ne $before.Hash) { throw 'store.json was removed or changed by uninstall' }
           Write-Host 'Install, update and uninstall all kept the task file intact.'
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: dist/Tack-Setup-*.exe
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Build the .deb and .AppImage
+        run: npm run dist:linux
+
+      # Install the .deb on a clean Ubuntu machine, start Tack on a virtual screen with a pretend
+      # task file, and check it opens, loads the task and leaves the file intact. Same for the AppImage.
+      - name: Test Tack starts and loads tasks
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb
+          sudo apt-get install -y ./dist/Tack-*.deb
+          test -x /opt/Tack/tack
+          task='{"tack.tasks":[{"uuid":"t1","description":"keep me","status":"pending","entry":0,"tags":[],"annotations":[],"depends":[]}]}'
+
+          data=$(mktemp -d); echo "$task" > "$data/store.json"
+          TACK_DATA="$data" timeout 30 xvfb-run -a /opt/Tack/tack || true
+          echo "--- .deb log"; cat "$data/tack.log"
+          grep -q "page connected, 1 tasks" "$data/tack.log"
+          grep -q '"keep me"' "$data/store.json"
+
+          data2=$(mktemp -d); echo "$task" > "$data2/store.json"
+          chmod +x dist/Tack-*.AppImage
+          APPIMAGE_EXTRACT_AND_RUN=1 TACK_DATA="$data2" timeout 30 xvfb-run -a ./dist/Tack-*.AppImage --no-sandbox || true
+          echo "--- AppImage log"; cat "$data2/tack.log"
+          grep -q "page connected, 1 tasks" "$data2/tack.log"
+          grep -q '"keep me"' "$data2/store.json"
+          echo 'The .deb and the AppImage both started, loaded the task and kept the file intact.'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: |
+            dist/Tack-*.deb
+            dist/Tack-*.AppImage
+
+  release:
+    needs: [windows, linux]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
       - name: Publish the release
-        if: startsWith(github.ref, 'refs/tags/')
-        shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $setup = (Get-ChildItem dist -Filter 'Tack-Setup-*.exe').FullName
-          gh release create "${{ github.ref_name }}" $setup --title "Tack ${{ github.ref_name }}" --notes "Download **$(Split-Path $setup -Leaf)** below and run it. Your tasks are kept safe across updates."
+          ls -la out
+          gh release create "${{ github.ref_name }}" out/* --repo "${{ github.repository }}" --title "Tack ${{ github.ref_name }}" --notes "$(cat <<'EOF'
+          **Windows:** download `Tack-Setup-*.exe` and run it.
 
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: Tack-Setup
-          path: dist/Tack-Setup-*.exe
-          if-no-files-found: ignore
+          **Linux (Ubuntu, Debian, Mint, Pop!_OS):** download the `.deb` and open it, or run `sudo apt install ./Tack-*.deb`.
+          **Other Linux:** download the `.AppImage`, make it executable (`chmod +x Tack-*.AppImage`) and run it.
+
+          Your tasks are kept safe across updates.
+          EOF
+          )"
