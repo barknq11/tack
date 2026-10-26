@@ -1,7 +1,7 @@
 {
   "name": "tack",
   "productName": "Tack",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A minimal, friendly Taskwarrior-style task manager",
   "main": "main.js",
   "author": {
@@ -33,6 +33,7 @@
       "index.html",
       "main.js",
       "preload.js",
+      "prayer.js",
       "package.json",
       {
         "from": "build",

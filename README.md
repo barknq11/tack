@@ -1,6 +1,7 @@
 # Tack
 
-A minimal, friendly task manager for Windows and Linux, inspired by [Taskwarrior](https://taskwarrior.org).
+A minimal, friendly task manager for Windows and Linux, inspired by [Taskwarrior](https://taskwarrior.org), with
+daily routines and Islamic prayer times built in.
 Type tasks in plain English, watch them get done, and keep a little thumbtack cheering you on.
 
 ## Install
@@ -55,6 +56,26 @@ Download the newer version and install it the same way. Your tasks stay exactly 
 In the app: color dot (bottom-left) → **Where my tasks are saved** opens that folder. **Export tasks** saves a
 Taskwarrior-compatible JSON file, and **Import tasks** reads one (including `task export` output).
 
+## Today, routines and progress
+
+- **Today** is the home page: a progress bar for the day, your **daily routines** (done or not), every open task by urgency,
+  and what you finished today, all on one page.
+- **Daily routines** come back unchecked every morning and keep a streak 🔥. Type `Read Quran every day`, right-click any
+  task → **Repeat every day**, or use the **Make daily** button in its details.
+- **Progress** shows the last 14 days, routine streaks, and your prayer record.
+
+## Prayer times 🕌
+
+- The five prayer times plus sunrise sit at the top, with the next prayer highlighted and a live countdown, plus the
+  Hijri date. Tick ✓ on a prayer once you've prayed it; it counts in today's progress and on the Progress page.
+- Calculated on your computer for your exact location, no internet needed. Methods: Muslim World League (common in
+  Iraq), Egyptian, Umm al-Qura, Karachi, ISNA, Ja'fari (Shia Endowment / Leva) and Tehran; standard or Hanafi Asr.
+- **Match my mosque:** in the ⚙ settings, type today's times from your mosque's timetable once. Tack remembers the
+  difference for each prayer and stays in step with your mosque every day.
+- Reminders before and at each prayer (notification and a soft chime), with an option for 12- or 24-hour time.
+- Pick from a list of cities (Iraq, the Gulf, the Levant and beyond), use your computer's location, or enter exact
+  coordinates for your own mosque. Your location stays on your computer.
+
 ## Using Tack
 
 Type a task and press Enter. Tack understands:
@@ -71,7 +92,7 @@ Type a task and press Enter. Tack understands:
 Taskwarrior commands work too: `3 done`, `2 modify fri !!`, `4 annotate …`, `undo`.
 
 **Keys:** `n` new task · `j`/`k` move · `Enter` open · `d` done · `s` focus timer · `x` delete · `u` undo ·
-`p` pin on top · `[` sidebar · `1`–`6` views · `?` help. **Right-click** anything for more.
+`p` pin on top · `[` sidebar · `1`–`9` pages · `?` help. **Right-click** anything for more.
 
 **Pin (📌 or `p`)** swaps the full window for a small always-on-top window with your focus timer and next tasks.
 

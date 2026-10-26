@@ -104,8 +104,9 @@ function createWindow() {
   // connect to the data file), reload it once; if it still can't, the page shows a warning and saves nothing.
   const wc = win.webContents;
   let reloads = 0;
+  // Reset when a load starts (the page asks for its data while loading, before did-finish-load fires)
+  wc.on('did-start-loading', () => { pageConnected = false; });
   wc.on('did-finish-load', () => {
-    pageConnected = false;
     setTimeout(() => {
       if (pageConnected || win.isDestroyed()) return;
       log(`page did not connect to the data file${reloads ? ' after a reload' : '; reloading it'}`);

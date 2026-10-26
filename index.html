@@ -222,6 +222,93 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
 .clear-note { display: flex; align-items: center; gap: 12px; padding: 14px 12px 4px; color: var(--muted); }
 .clear-note .buddy { width: 34px; height: 40px; }
 .clear-note b { color: var(--text); }
+/* Prayer times strip */
+.prayers { margin-top: 16px; }
+.pr-strip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)) auto; gap: 6px; align-items: stretch; }
+.pr-cell { position: relative; padding: 9px 10px 8px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); text-align: center; transition: background .2s, border-color .2s; }
+.pr-cell .pr-ar { font: 600 15px/1.2 var(--sans); }
+.pr-cell .pr-en { font-size: 11px; color: var(--faint); }
+.pr-cell .pr-time { font: 600 14px var(--mono); margin-top: 3px; font-variant-numeric: tabular-nums; }
+.pr-cell .pr-in { font-size: 11px; color: var(--faint); min-height: 15px; }
+.pr-cell.past { opacity: .62; }
+.pr-cell.now { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.pr-cell.next { background: var(--accent-soft); border-color: transparent; }
+.pr-cell.next .pr-time, .pr-cell.next .pr-in { color: var(--accent); }
+.pr-cell.next .pr-in { font-weight: 600; }
+.pr-cell.sunrise .pr-ar { font-weight: 500; color: var(--muted); }
+.pr-check { position: absolute; top: 6px; right: 6px; width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid var(--faint); display: grid; place-items: center; color: transparent; font-size: 10px; font-weight: 700; line-height: 1; transition: all .15s; }
+.pr-check:hover:not(:disabled) { border-color: var(--green); }
+.pr-check.on { background: var(--green); border-color: var(--green); color: #fff; }
+.pr-check:disabled { opacity: .35; cursor: default; }
+.pr-cell.prayed { opacity: 1; }
+.pr-gear { align-self: center; }
+.pr-setup { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; background: var(--accent-soft); color: var(--text); font-size: 13px; }
+.pr-setup .btn { margin-left: auto; }
+.dates { font-size: 12px; color: var(--faint); margin-top: 2px; }
+.dates .hijri { font-family: var(--sans); color: var(--muted); }
+
+/* Today page */
+.today-card { margin: 8px 0 10px; padding: 14px 16px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; align-items: center; }
+.today-card .pct { font: 700 28px/1 var(--display); grid-row: span 2; color: var(--accent); min-width: 72px; }
+.today-card .bar { height: 8px; border-radius: 8px; background: var(--line); overflow: hidden; }
+.today-card .bar i { display: block; height: 100%; width: var(--w); background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 8px; transition: width .6s cubic-bezier(.3,1.3,.5,1); }
+.today-card .parts { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; color: var(--muted); }
+.today-card .parts b { color: var(--text); font-weight: 600; }
+.sec-head { display: flex; align-items: baseline; gap: 8px; margin: 18px 12px 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 500; }
+.sec-head .n { color: var(--accent); font-weight: 700; font-size: 12px; }
+.sec-head .hint { margin-left: auto; text-transform: none; letter-spacing: 0; font-size: 12px; }
+.tip-card { margin: 10px 0 4px; padding: 14px 16px; border-radius: 14px; border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent); background: var(--accent-soft); font-size: 13px; }
+.tip-card h4 { margin: 0 0 4px; font: 600 14px var(--display); }
+.tip-card p { margin: 0 0 8px; color: var(--muted); }
+.tip-card label { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: pointer; }
+.tip-card .acts2 { display: flex; gap: 8px; margin-top: 10px; }
+
+/* Progress page */
+.pg-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 8px 0 18px; }
+.pg-card { padding: 14px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); }
+.pg-card .big { font: 700 24px/1.1 var(--display); }
+.pg-card .small { font-size: 12px; color: var(--faint); margin-top: 2px; }
+.pg-title { margin: 18px 4px 8px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 500; }
+.pg-days { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 6px; align-items: end; padding: 14px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); }
+.pg-day { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10.5px; color: var(--faint); }
+.pg-day .col { width: 100%; max-width: 26px; height: 90px; border-radius: 7px; background: var(--hover); position: relative; overflow: hidden; }
+.pg-day .col i { position: absolute; left: 0; right: 0; bottom: 0; height: var(--h); background: linear-gradient(0deg, var(--accent), color-mix(in srgb, var(--accent) 55%, var(--green))); border-radius: 7px; }
+.pg-day.today .col { box-shadow: 0 0 0 2px var(--accent-soft); }
+.pg-day .dots { display: flex; gap: 2px; }
+.pg-day .dots b { width: 4px; height: 4px; border-radius: 50%; background: var(--line); }
+.pg-day .dots b.on { background: var(--green); }
+.pg-table { width: 100%; border-collapse: separate; border-spacing: 0 4px; font-size: 13px; }
+.pg-table td { padding: 6px 8px; background: var(--panel); }
+.pg-table td:first-child { border-radius: 9px 0 0 9px; }
+.pg-table td:last-child { border-radius: 0 9px 9px 0; text-align: right; color: var(--muted); white-space: nowrap; }
+.pg-sq { display: inline-flex; gap: 3px; }
+.pg-sq b { width: 10px; height: 10px; border-radius: 3px; background: var(--line); }
+.pg-sq b.on { background: var(--green); }
+
+/* Prayer settings dialog */
+.pdlg .help-card { width: 640px; }
+.pdlg .grid2 { display: grid; grid-template-columns: 150px 1fr; gap: 10px 14px; align-items: center; font-size: 13px; }
+.pdlg label.l { color: var(--muted); }
+.pdlg select, .pdlg input[type=number], .pdlg input[type=text], .pdlg input[type=time] { background: var(--hover); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font-size: 13px; color: var(--text); min-width: 0; outline: 0; }
+.pdlg select:focus, .pdlg input:focus { border-color: var(--accent); }
+.pdlg .row2 { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.pdlg .six { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; text-align: center; font-size: 12px; }
+.pdlg .six input { width: 100%; text-align: center; padding: 6px 2px; }
+.pdlg .six .h { color: var(--faint); }
+.pdlg h5 { margin: 20px 0 8px; font: 600 13px var(--display); }
+.pdlg .note { font-size: 12px; color: var(--faint); margin: 6px 0 0; }
+.pdlg .ok { color: var(--green); font-size: 12.5px; min-height: 18px; margin-top: 6px; }
+.pdlg .foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+
+@media (max-width: 760px) {
+  .pr-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pr-gear { display: none; }
+  .pg-days { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .pg-day:nth-child(-n+7) { display: none; }
+  .pdlg .grid2 { grid-template-columns: 1fr; }
+  .pdlg .six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 .empty { text-align: center; padding: 50px 20px; color: var(--muted); }
 .empty .buddy { width: 92px; height: 108px; margin: 0 auto 12px; display: block; }
 .empty h3 { margin: 0 0 6px; color: var(--text); font: 600 18px var(--display); }
@@ -373,6 +460,7 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
       <hr>
       <button class="opt" id="optTheme">Appearance <b id="themeLbl">Auto</b></button>
       <button class="opt" id="optSound">Sounds <b id="soundLbl">On</b></button>
+      <button class="opt" id="optPrayer">Prayer times <b>Settings</b></button>
       <button class="opt" id="optFinished">Finished on home <b id="finLbl">Today</b></button>
       <button class="opt" id="optImport">Import tasks <b>JSON</b></button>
       <button class="opt" id="optExport">Export tasks <b>JSON</b></button>
@@ -390,10 +478,11 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
       <div class="hero">
         <button class="tool" id="sideBtn" aria-label="Toggle sidebar" title="Show/hide sidebar ([ or Ctrl+B)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="2" y="2.5" width="12" height="11" rx="2.5"/><path d="M6 2.5v11"/></svg></button>
         <div class="buddy" id="buddy" title="Hi, I'm Tack!"></div>
-        <div class="greet"><h2 id="hello">Hello</h2><div class="bubble" id="bubble"></div></div>
+        <div class="greet"><h2 id="hello">Hello</h2><div class="dates" id="dates"></div><div class="bubble" id="bubble"></div></div>
         <div class="scores" id="scores"></div>
         <button class="tool" id="pinBtn" aria-label="Always on top"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 1.8l4.6 4.6-1.6.5-2.6 2.6.2 3-1.5 1.5L2 7.3l1.5-1.5 3 .2 2.6-2.6z"/><path d="M5.2 10.8L1.8 14.2"/></svg></button>
       </div>
+      <div class="prayers" id="prayers"></div>
       <div class="title-row"><h1 id="title">Next</h1><div class="stats" id="stats"></div><span class="saved" id="saved">✓ Saved</span></div>
       <div class="cmd" id="cmdBox">
         <span class="plus" id="cmdIcon"></span>
@@ -411,6 +500,8 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
 <aside class="drawer" id="drawer" aria-label="Task details"></aside>
 <div class="toast" id="toast"><span id="toastMsg"></span><button id="toastUndo">Undo</button></div>
 
+<div class="help pdlg" id="prayerDlg"><div class="help-card" id="prayerCard"></div></div>
+
 <div class="help" id="help">
   <div class="help-card">
     <h2>How to Tack</h2>
@@ -421,6 +512,7 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
         <dl>
           <dt>Buy milk tomorrow</dt><dd>Due tomorrow</dd>
           <dt>Call mom fri at 6pm</dt><dd>Due Friday, 18:00</dd>
+          <dt>Read Quran every day</dt><dd>A daily routine: it comes back fresh every morning and keeps a streak</dd>
           <dt>Pay rent every month</dt><dd>Repeats; a new one appears when you finish</dd>
           <dt>Report in 3 days</dt><dd>Also <code>next week</code>, <code>weekend</code>, <code>dec 5</code></dd>
           <dt>#errand</dt><dd>Add a tag</dd>
@@ -429,6 +521,11 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
           <dt>"Read about friday"</dt><dd>Quotes keep words literal</dd>
           <dt>/milk</dt><dd>Start with <code>/</code> to search</dd>
         </dl>
+        <h6>Prayer times</h6>
+        <dl>
+          <dt>✓ on a prayer</dt><dd>Mark it as prayed today (tracked on the Progress page)</dd>
+          <dt>⚙ next to the times</dt><dd>Location, method, Asr, reminders, and <b>Match my mosque</b> to copy your mosque’s timetable to the minute</dd>
+        </dl>
         <h6>Keys</h6>
         <dl>
           <dt>n or a</dt><dd>New task</dd>
@@ -436,7 +533,7 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
           <dt>d / space</dt><dd>Done</dd>
           <dt>s</dt><dd>Start/stop focus timer</dd>
           <dt>x · u</dt><dd>Delete · undo</dd>
-          <dt>1–6</dt><dd>Switch view</dd>
+          <dt>1–9</dt><dd>Switch page (Today, Next, Routines… Progress)</dd>
           <dt>[ or Ctrl+B</dt><dd>Hide/show sidebar</dd>
           <dt>p</dt><dd>Pin on top of other windows</dd>
         </dl>
@@ -471,6 +568,7 @@ button.chip:hover { color: var(--text); border-color: var(--faint); }
   </div>
 </div>
 
+<script src="prayer.js"></script>
 <script>
 (() => {
 'use strict';
@@ -710,7 +808,8 @@ let undoStack = LS.get('tack.undo', []);
 if (!tasks) tasks = [];
 // Ask the browser to never evict Tack's storage
 navigator.storage?.persist?.().catch(() => {});
-const st = { view: LS.get('tack.view', 'next'), project: null, tag: null, filter: '', sel: null, open: null, fresh: null };
+if (!LS.get('tack.homeIntro', false)) { LS.set('tack.view', 'home'); LS.set('tack.homeIntro', true); }
+const st = { view: LS.get('tack.view', 'home'), project: null, tag: null, filter: '', sel: null, open: null, fresh: null };
 const prefs = { theme: LS.get('tack.theme', 'auto'), accent: LS.get('tack.accent', 'violet'), sound: LS.get('tack.sound', true), sidebar: LS.get('tack.sidebar', true), finished: LS.get('tack.finished', 'today') };
 let pip = null; // the always-on-top window, while pinned
 let CTX = {};
@@ -754,7 +853,7 @@ const isBlocking = t => CTX.blocking.has(t.uuid);
 
 function urgency(t) {
   const parts = [];
-  if (t.status !== 'pending') return { total: 0, parts };
+  if (t.status !== 'pending' || doneToday(t)) return { total: 0, parts };
   const add = (n, v) => { if (v) parts.push([n, v]); };
   const now = Date.now();
   if (t.tags.includes('next')) add('#next tag', 15);
@@ -794,13 +893,307 @@ function hasTag(t, tag) {
   return t.tags.includes(tag);
 }
 
+/* ---------- Prayer times ----------
+   Calculated on the device by prayer.js for the chosen place, with optional per-prayer minute
+   adjustments so the times can match a mosque's timetable exactly. */
+const PRAYER_KEYS = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+const PRAYER_ROW = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+const PRAYER_LABEL = {
+  fajr: { ar: 'الفجر', en: 'Fajr' }, sunrise: { ar: 'الشروق', en: 'Sunrise' }, dhuhr: { ar: 'الظهر', en: 'Dhuhr' },
+  asr: { ar: 'العصر', en: 'Asr' }, maghrib: { ar: 'المغرب', en: 'Maghrib' }, isha: { ar: 'العشاء', en: 'Isha' },
+};
+const PLACES = [
+  { id: 'baghdad', name: 'Baghdad', lat: 33.3152, lng: 44.3661, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'abughraib', name: 'Abu Ghraib', lat: 33.2911, lng: 44.0675, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'fallujah', name: 'Fallujah', lat: 33.3497, lng: 43.7861, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'ramadi', name: 'Ramadi', lat: 33.4206, lng: 43.3078, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'mosul', name: 'Mosul', lat: 36.3456, lng: 43.1450, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'kirkuk', name: 'Kirkuk', lat: 35.4681, lng: 44.3922, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'erbil', name: 'Erbil', lat: 36.1911, lng: 44.0092, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'sulaymaniyah', name: 'Sulaymaniyah', lat: 35.5613, lng: 45.4374, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'tikrit', name: 'Tikrit', lat: 34.6071, lng: 43.6782, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'samarra', name: 'Samarra', lat: 34.1959, lng: 43.8857, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'baqubah', name: 'Baqubah', lat: 33.7476, lng: 44.6431, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'karbala', name: 'Karbala', lat: 32.6160, lng: 44.0249, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'najaf', name: 'Najaf', lat: 32.0000, lng: 44.3353, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'hillah', name: 'Hillah', lat: 32.4637, lng: 44.4196, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'kut', name: 'Kut', lat: 32.5128, lng: 45.8182, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'nasiriyah', name: 'Nasiriyah', lat: 31.0439, lng: 46.2576, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'basra', name: 'Basra', lat: 30.5085, lng: 47.7804, zone: 'Asia/Baghdad', group: 'Iraq' },
+  { id: 'makkah', name: 'Makkah', lat: 21.4225, lng: 39.8262, zone: 'Asia/Riyadh', group: 'Arabia & the Gulf' },
+  { id: 'madinah', name: 'Madinah', lat: 24.4672, lng: 39.6111, zone: 'Asia/Riyadh', group: 'Arabia & the Gulf' },
+  { id: 'riyadh', name: 'Riyadh', lat: 24.7136, lng: 46.6753, zone: 'Asia/Riyadh', group: 'Arabia & the Gulf' },
+  { id: 'kuwait', name: 'Kuwait City', lat: 29.3759, lng: 47.9774, zone: 'Asia/Kuwait', group: 'Arabia & the Gulf' },
+  { id: 'dubai', name: 'Dubai', lat: 25.2048, lng: 55.2708, zone: 'Asia/Dubai', group: 'Arabia & the Gulf' },
+  { id: 'doha', name: 'Doha', lat: 25.2854, lng: 51.5310, zone: 'Asia/Qatar', group: 'Arabia & the Gulf' },
+  { id: 'amman', name: 'Amman', lat: 31.9539, lng: 35.9106, zone: 'Asia/Amman', group: 'Levant, Turkey & Iran' },
+  { id: 'damascus', name: 'Damascus', lat: 33.5138, lng: 36.2765, zone: 'Asia/Damascus', group: 'Levant, Turkey & Iran' },
+  { id: 'beirut', name: 'Beirut', lat: 33.8938, lng: 35.5018, zone: 'Asia/Beirut', group: 'Levant, Turkey & Iran' },
+  { id: 'jerusalem', name: 'Al-Quds (Jerusalem)', lat: 31.7780, lng: 35.2354, zone: 'Asia/Jerusalem', group: 'Levant, Turkey & Iran' },
+  { id: 'istanbul', name: 'Istanbul', lat: 41.0082, lng: 28.9784, zone: 'Europe/Istanbul', group: 'Levant, Turkey & Iran' },
+  { id: 'tehran', name: 'Tehran', lat: 35.6892, lng: 51.3890, zone: 'Asia/Tehran', group: 'Levant, Turkey & Iran' },
+  { id: 'cairo', name: 'Cairo', lat: 30.0444, lng: 31.2357, zone: 'Africa/Cairo', group: 'Africa' },
+  { id: 'casablanca', name: 'Casablanca', lat: 33.5731, lng: -7.5898, zone: 'Africa/Casablanca', group: 'Africa' },
+  { id: 'karachi', name: 'Karachi', lat: 24.8607, lng: 67.0011, zone: 'Asia/Karachi', group: 'Asia' },
+  { id: 'kualalumpur', name: 'Kuala Lumpur', lat: 3.1390, lng: 101.6869, zone: 'Asia/Kuala_Lumpur', group: 'Asia' },
+  { id: 'jakarta', name: 'Jakarta', lat: -6.2088, lng: 106.8456, zone: 'Asia/Jakarta', group: 'Asia' },
+  { id: 'london', name: 'London', lat: 51.5074, lng: -0.1278, zone: 'Europe/London', group: 'Europe & Americas' },
+  { id: 'berlin', name: 'Berlin', lat: 52.5200, lng: 13.4050, zone: 'Europe/Berlin', group: 'Europe & Americas' },
+  { id: 'paris', name: 'Paris', lat: 48.8566, lng: 2.3522, zone: 'Europe/Paris', group: 'Europe & Americas' },
+  { id: 'newyork', name: 'New York', lat: 40.7128, lng: -74.0060, zone: 'America/New_York', group: 'Europe & Americas' },
+  { id: 'toronto', name: 'Toronto', lat: 43.6532, lng: -79.3832, zone: 'America/Toronto', group: 'Europe & Americas' },
+];
+const deviceZone = () => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch { return ''; } };
+const placeFields = p => ({ place: p.id, placeName: p.name, lat: p.lat, lng: p.lng, zone: p.zone });
+let prayerConf = null;
+function prayerCfg() {
+  if (!prayerConf) {
+    const base = { enabled: true, method: 'mwl', asr: 'shafii', adjust: {}, notify: true, remind: 10, h12: false, hijriAdjust: 0 };
+    // On a computer set to Iraq time, start with Abu Ghraib; elsewhere ask for a location
+    if (deviceZone() === 'Asia/Baghdad') Object.assign(base, placeFields(PLACES.find(p => p.id === 'abughraib')));
+    prayerConf = { ...base, ...(LS.get('tack.prayer', null) || {}) };
+  }
+  return prayerConf;
+}
+function savePrayerCfg(patch) { prayerConf = { ...prayerCfg(), ...patch }; LS.set('tack.prayer', prayerConf); render(); }
+
+// Date and minutes-after-midnight right now in the prayer location's time zone
+function zoneParts(zone, ms = Date.now()) {
+  try {
+    const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: zone || undefined, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      .formatToParts(new Date(ms)).map(x => [x.type, x.value]));
+    return { y: +p.year, m: +p.month, d: +p.day, min: (+p.hour % 24) * 60 + +p.minute + +p.second / 60 };
+  } catch {
+    const d = new Date(ms);
+    return { y: d.getFullYear(), m: d.getMonth() + 1, d: d.getDate(), min: d.getHours() * 60 + d.getMinutes() + d.getSeconds() / 60 };
+  }
+}
+function zoneOffsetHours(zone, y, m, d) {
+  const noonUtc = Date.UTC(y, m - 1, d, 12);
+  const p = zoneParts(zone, noonUtc);
+  return Math.round((Date.UTC(p.y, p.m - 1, p.d) + p.min * 6e4 - noonUtc) / 36e5 * 4) / 4;
+}
+function prayerTimesOn(y, m, d, withAdjust = true) {
+  const c = prayerCfg();
+  if (c.lat == null) return null;
+  return PrayerTimes.compute(new Date(y, m - 1, d), { lat: c.lat, lng: c.lng, tz: zoneOffsetHours(c.zone, y, m, d), method: c.method, asr: c.asr, adjust: withAdjust ? c.adjust : {} });
+}
+function prayerToday() {
+  const c = prayerCfg();
+  if (c.lat == null || c.enabled === false || !window.PrayerTimes) return null;
+  const z = zoneParts(c.zone);
+  const times = prayerTimesOn(z.y, z.m, z.d);
+  let current = null, next = null;
+  for (const n of PRAYER_ROW) {
+    if (times[n] <= z.min) current = { name: n, at: times[n] };
+    else if (!next) next = { name: n, at: times[n], inMin: Math.ceil(times[n] - z.min) };
+  }
+  if (!next) {
+    const tm = new Date(z.y, z.m - 1, z.d + 1), t2 = prayerTimesOn(tm.getFullYear(), tm.getMonth() + 1, tm.getDate());
+    next = { name: 'fajr', at: t2.fajr, inMin: Math.ceil(t2.fajr + 1440 - z.min), tomorrow: true };
+  }
+  return { times, current, next, nowMin: z.min, prayed: LS.get('tack.prayed', {})[todayKey()] || [] };
+}
+const fmtMins = m => m < 60 ? `${m} min` : `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, '0')}m`;
+function hijriDate(ms = Date.now()) {
+  try { return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(ms + (prayerCfg().hijriAdjust || 0) * DAY)); }
+  catch { return ''; }
+}
+function datesLine() {
+  const d = new Date();
+  const greg = `${WD[d.getDay()].replace(/^./, c => c.toUpperCase())}, ${d.getDate()} ${MON[d.getMonth()]}`;
+  const h = hijriDate();
+  return `${greg}${h ? ` · <span class="hijri" dir="rtl">${esc(h)}</span>` : ''}`;
+}
+function renderPrayers() {
+  const el = $('#prayers');
+  if (!el) return;
+  const c = prayerCfg();
+  if (c.enabled === false) { el.innerHTML = ''; return; }
+  if (c.lat == null) {
+    el.innerHTML = `<div class="pr-setup">${icon('mosque', 'ic')}<span>Set your location to see prayer times and get reminders.</span><button class="btn primary" data-pr="settings">Set up prayer times</button></div>`;
+    return;
+  }
+  const p = prayerToday();
+  el.innerHTML = `<div class="pr-strip">${PRAYER_ROW.map(n => {
+    const tomorrowFajr = n === 'fajr' && p.next.tomorrow;
+    const at = tomorrowFajr ? p.next.at : p.times[n];
+    const isNext = p.next.name === n, isNow = !isNext && p.current?.name === n, past = !isNext && at <= p.nowMin;
+    const prayed = p.prayed.includes(n);
+    const cls = [n === 'sunrise' ? 'sunrise' : '', isNext ? 'next' : isNow ? 'now' : past ? 'past' : '', prayed ? 'prayed' : ''].join(' ');
+    const sub = isNext ? (tomorrowFajr ? 'tomorrow · ' : 'in ') + fmtMins(p.next.inMin) : prayed ? 'prayed ✓' : isNow && n !== 'sunrise' ? 'now' : '';
+    const canTick = tomorrowFajr ? false : p.times[n] <= p.nowMin;
+    const check = n === 'sunrise' ? '' : `<button class="pr-check ${prayed ? 'on' : ''}" data-pray="${n}" ${canTick || prayed ? '' : 'disabled'} title="${prayed ? 'Prayed. Click to undo' : canTick ? `Mark ${PRAYER_LABEL[n].en} as prayed` : 'Not time yet'}">✓</button>`;
+    return `<div class="pr-cell ${cls}" title="${PRAYER_LABEL[n].en} · ${esc(c.placeName || 'your location')}">${check}<div class="pr-ar">${PRAYER_LABEL[n].ar}</div><div class="pr-en">${PRAYER_LABEL[n].en}</div><div class="pr-time">${PrayerTimes.fmt(at, c.h12)}</div><div class="pr-in">${sub}</div></div>`;
+  }).join('')}<button class="tool pr-gear" data-pr="settings" title="Prayer time settings · ${esc(c.placeName || '')}">${icon('gear', '')}</button></div>`;
+}
+function togglePrayed(n, el) {
+  const all = LS.get('tack.prayed', {}), k = todayKey();
+  const list = new Set(all[k] || []);
+  const on = !list.has(n);
+  if (on) list.add(n); else list.delete(n);
+  all[k] = [...list];
+  const cutoff = dayKey(Date.now() - 400 * DAY);
+  for (const key of Object.keys(all)) if (key < cutoff) delete all[key];
+  LS.set('tack.prayed', all);
+  if (on) {
+    celebrateAt(el, true); sfx.done();
+    say(pick(['تقبّل الله 🤲', 'May Allah accept it 🤲', 'تقبل الله منا ومنكم 🤲']), 'excited', 3200);
+    if (all[k].length === 5) setTimeout(() => { sfx.party(); say('All five prayers today. ما شاء الله 🌙', 'excited', 5000); }, 600);
+  }
+  render();
+}
+// Reminders: a notification (and a soft chime) before and at each prayer time
+const prayerNotified = new Set();
+function prayerTick() {
+  renderPrayers();
+  renderMini();
+  const c = prayerCfg(), p = prayerToday();
+  if (!p || !c.notify) return;
+  for (const n of PRAYER_KEYS) {
+    const at = p.times[n], k = todayKey() + n;
+    if (p.nowMin >= at && p.nowMin < at + 3 && !prayerNotified.has(k)) { prayerNotified.add(k); prayerAlert(n, at, 0); }
+    if (c.remind > 0 && p.nowMin >= at - c.remind && p.nowMin < at - c.remind + 3 && !prayerNotified.has(k + 'pre')) { prayerNotified.add(k + 'pre'); prayerAlert(n, at, c.remind); }
+  }
+}
+function prayerAlert(n, at, before) {
+  const L = PRAYER_LABEL[n], c = prayerCfg();
+  const title = before ? `${L.en} in ${before} minutes · ${L.ar}` : `It’s time for ${L.en} · حان موعد صلاة ${L.ar}`;
+  try { const note = new Notification(title, { body: `${PrayerTimes.fmt(at, c.h12)} · ${c.placeName || ''}`, silent: true }); note.onclick = () => window.focus(); } catch {}
+  if (before) sfx.add(); else sfx.adhan();
+  say(before ? `🕌 <b>${L.en}</b> in ${before} minutes.` : `🕌 It’s time for <b>${L.en}</b>. حان موعد صلاة ${L.ar}`, 'happy', before ? 6000 : 15000);
+}
+
+function openPrayerSettings(message) {
+  const c = prayerCfg(), card = $('#prayerCard');
+  const opt = (v, l, cur) => `<option value="${esc(v)}" ${String(v) === String(cur) ? 'selected' : ''}>${esc(l)}</option>`;
+  const groups = [...new Set(PLACES.map(p => p.group))];
+  const z = zoneParts(c.zone);
+  const cur = c.lat != null ? prayerTimesOn(z.y, z.m, z.d) : null;
+  const remindVal = !c.notify ? 'off' : String(c.remind || 0);
+  card.innerHTML = `
+    <h2>🕌 Prayer times</h2>
+    <p>Calculated on your computer for the exact location, no internet needed. Use <b>Match my mosque</b> below to make them identical to your mosque’s timetable.</p>
+    <div class="grid2">
+      <label class="l">Show prayer times</label><label class="row2"><input type="checkbox" id="pEnabled" ${c.enabled !== false ? 'checked' : ''}> On</label>
+      <label class="l" for="pPlace">Location</label>
+      <div class="row2"><select id="pPlace">${opt('', 'Choose a place…', c.lat == null ? '' : c.place)}${groups.map(g => `<optgroup label="${esc(g)}">${PLACES.filter(p => p.group === g).map(p => opt(p.id, p.name, c.place)).join('')}</optgroup>`).join('')}${opt('custom', 'Custom coordinates', c.place)}</select>
+        <button class="btn" id="pLocate">Use my location</button></div>
+      <label class="l">Coordinates</label>
+      <div class="row2"><input type="number" step="0.000001" id="pLat" placeholder="latitude" value="${c.lat ?? ''}" style="width:130px"><input type="number" step="0.000001" id="pLng" placeholder="longitude" value="${c.lng ?? ''}" style="width:130px"><span class="note">${esc(c.zone || deviceZone())}</span></div>
+      <label class="l" for="pMethod">Calculation method</label><select id="pMethod">${Object.entries(PrayerTimes.METHODS).map(([k, m]) => opt(k, m.name, c.method)).join('')}</select>
+      <label class="l" for="pAsr">Asr time</label><select id="pAsr">${opt('shafii', 'Standard: Shafi’i, Maliki, Hanbali', c.asr)}${opt('hanafi', 'Hanafi (later)', c.asr)}</select>
+      <label class="l" for="pRemind">Reminders</label><select id="pRemind">${opt('off', 'Off', remindVal)}${opt('0', 'At prayer time', remindVal)}${[5, 10, 15, 20, 30].map(m => opt(String(m), `${m} min before, and at prayer time`, remindVal)).join('')}</select>
+      <label class="l" for="pFmt">Time format</label><select id="pFmt">${opt('24', '24-hour (16:45)', c.h12 ? '12' : '24')}${opt('12', '12-hour (4:45 PM)', c.h12 ? '12' : '24')}</select>
+      <label class="l" for="pHijri">Hijri date</label><div class="row2"><select id="pHijri">${[-2, -1, 0, 1, 2].map(d => opt(String(d), d ? `${d > 0 ? '+' : '−'}${Math.abs(d)} day${Math.abs(d) > 1 ? 's' : ''}` : 'As calculated (Umm al-Qura)', String(c.hijriAdjust || 0))).join('')}</select><span class="note" dir="rtl">${esc(hijriDate())}</span></div>
+    </div>
+    ${cur ? `<h5>Match my mosque exactly</h5>
+    <p class="note" style="margin:0 0 8px">Type today’s times from your mosque’s timetable (or when you hear its adhan) and press Save. Tack remembers the difference for each prayer and applies it every day.</p>
+    <div class="six">${PRAYER_ROW.map(n => `<div class="h">${PRAYER_LABEL[n].ar}<br>${PRAYER_LABEL[n].en}</div>`).join('')}
+      ${PRAYER_ROW.map(n => `<input type="time" data-cal="${n}" value="${PrayerTimes.fmt(cur[n])}">`).join('')}
+      ${PRAYER_ROW.map(n => { const a = (c.adjust || {})[n] || 0; return `<div class="h">${a ? `${a > 0 ? '+' : '−'}${Math.abs(a)} min` : 'calculated'}</div>`; }).join('')}</div>
+    <div class="row2" style="margin-top:10px"><button class="btn primary" id="pCalSave">Save as my mosque’s times</button><button class="btn" id="pCalReset">Reset to calculated</button></div>` : ''}
+    <div class="ok" id="pMsg">${message ? esc(message) : ''}</div>
+    <div class="foot"><button class="btn primary" id="pDone">Done</button></div>`;
+  $('#prayerDlg').classList.add('on');
+}
+function closePrayerSettings() { $('#prayerDlg').classList.remove('on'); }
+$('#prayerCard').addEventListener('change', e => {
+  const id = e.target.id, v = e.target.value;
+  if (id === 'pEnabled') savePrayerCfg({ enabled: e.target.checked });
+  else if (id === 'pPlace') { const p = PLACES.find(x => x.id === v); if (p) savePrayerCfg({ ...placeFields(p) }); else if (v === 'custom') { $('#pLat').focus(); return; } }
+  else if (id === 'pLat' || id === 'pLng') {
+    const lat = parseFloat($('#pLat').value), lng = parseFloat($('#pLng').value);
+    if (!(Math.abs(lat) <= 90 && Math.abs(lng) <= 180)) return;
+    savePrayerCfg({ place: 'custom', placeName: 'Custom location', lat, lng, zone: prayerCfg().zone || deviceZone() });
+  }
+  else if (id === 'pMethod') savePrayerCfg({ method: v });
+  else if (id === 'pAsr') savePrayerCfg({ asr: v });
+  else if (id === 'pFmt') savePrayerCfg({ h12: v === '12' });
+  else if (id === 'pHijri') savePrayerCfg({ hijriAdjust: +v });
+  else if (id === 'pRemind') {
+    savePrayerCfg(v === 'off' ? { notify: false } : { notify: true, remind: +v });
+    if (v !== 'off' && window.Notification && Notification.permission === 'default') Notification.requestPermission();
+  }
+  else return;
+  openPrayerSettings();
+});
+$('#prayerCard').addEventListener('click', e => {
+  const id = e.target.closest('button')?.id;
+  if (id === 'pDone') return closePrayerSettings();
+  if (id === 'pLocate') {
+    $('#pMsg').textContent = 'Finding your location…';
+    if (!navigator.geolocation) { $('#pMsg').textContent = 'Location isn’t available here. Pick a place or type coordinates.'; return; }
+    navigator.geolocation.getCurrentPosition(pos => {
+      savePrayerCfg({ place: 'custom', placeName: 'My location', lat: +pos.coords.latitude.toFixed(6), lng: +pos.coords.longitude.toFixed(6), zone: deviceZone() });
+      openPrayerSettings('Location found ✓');
+    }, () => { $('#pMsg').textContent = 'Couldn’t detect your location on this computer. Pick a place from the list or type its coordinates.'; }, { timeout: 12000 });
+    return;
+  }
+  if (id === 'pCalSave') {
+    const c = prayerCfg(), z = zoneParts(c.zone), raw = prayerTimesOn(z.y, z.m, z.d, false), adjust = {};
+    for (const inp of $('#prayerCard').querySelectorAll('[data-cal]')) {
+      const m = inp.value.match(/^(\d{1,2}):(\d{2})/);
+      if (!m) continue;
+      let diff = +m[1] * 60 + +m[2] - raw[inp.dataset.cal];
+      if (Math.abs(diff) > 180) continue; // ignore obvious typos
+      if (diff) adjust[inp.dataset.cal] = diff;
+    }
+    savePrayerCfg({ adjust });
+    const summary = PRAYER_ROW.filter(n => adjust[n]).map(n => `${PRAYER_LABEL[n].en} ${adjust[n] > 0 ? '+' : ''}${adjust[n]} min`).join(', ');
+    return openPrayerSettings(`Saved ✓ Tack now matches your mosque${summary ? ': ' + summary : ' (no difference from the calculation)'}.`);
+  }
+  if (id === 'pCalReset') { savePrayerCfg({ adjust: {} }); return openPrayerSettings('Back to the calculated times.'); }
+});
+$('#prayerDlg').addEventListener('click', e => { if (e.target.id === 'prayerDlg') closePrayerSettings(); });
+$('#prayers').addEventListener('click', e => {
+  if (e.target.closest('[data-pr="settings"]')) return openPrayerSettings();
+  const b = e.target.closest('[data-pray]');
+  if (b && !b.disabled) togglePrayed(b.dataset.pray, b);
+});
+
+/* ---------- Daily routines ----------
+   A routine (t.routine) never "finishes": t.doneOn holds the dates (YYYY-MM-DD) it was done,
+   so every new day it is back, unchecked, and its streak keeps growing. */
+const dayKey = ms => { const d = new Date(ms); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const todayKey = () => dayKey(Date.now());
+const doneToday = t => !!t.routine && (t.doneOn || []).includes(todayKey());
+const isOpen = t => t.status === 'pending' && !isWaiting(t) && !doneToday(t);
+function routineStreak(t) {
+  const set = new Set(t.doneOn || []);
+  let d = Date.now(), cur = 0;
+  if (!set.has(dayKey(d))) d = sod(d) - 1; // today not done yet: count up to yesterday
+  while (set.has(dayKey(d))) { cur++; d = sod(d) - 1; }
+  let best = 0, run = 0, prev = null;
+  for (const k of [...set].sort()) {
+    const ms = new Date(k + 'T12:00').getTime();
+    run = prev != null && Math.round((ms - prev) / DAY) === 1 ? run + 1 : 1;
+    best = Math.max(best, run); prev = ms;
+  }
+  return { cur, best };
+}
+function markRoutineDone(t) { t.doneOn = [...new Set([...(t.doneOn || []), todayKey()])]; delete t.start; t.modified = Date.now(); }
+function setRoutine(t, on) {
+  mutate(() => {
+    if (on) {
+      t.routine = true;
+      if (t.status === 'completed') { if (t.end) t.doneOn = [...new Set([...(t.doneOn || []), dayKey(t.end)])]; t.status = 'pending'; delete t.end; }
+      delete t.due; delete t.recur; delete t.wait;
+    } else delete t.routine;
+    t.modified = Date.now();
+  }, on ? 'Now a daily routine ↻' : 'No longer a routine');
+}
+
 const VIEWS = {
-  next:      { label: 'Next',      ic: 'bolt',  fn: t => t.status === 'pending' && !isWaiting(t), sort: (a, b) => urg(b) - urg(a) },
-  today:     { label: 'Due soon',  ic: 'cal',   fn: t => t.status === 'pending' && !isWaiting(t) && t.due && t.due <= eod(Date.now() + DAY), sort: (a, b) => a.due - b.due },
+  home:      { label: 'Today',     ic: 'sun',   fn: isOpen, sort: (a, b) => urg(b) - urg(a) },
+  next:      { label: 'Next',      ic: 'bolt',  fn: isOpen, sort: (a, b) => urg(b) - urg(a) },
+  routines:  { label: 'Routines',  ic: 'repeat', fn: t => !!t.routine && t.status === 'pending', sort: (a, b) => (doneToday(a) - doneToday(b)) || a.entry - b.entry },
+  today:     { label: 'Due soon',  ic: 'cal',   fn: t => isOpen(t) && t.due && t.due <= eod(Date.now() + DAY), sort: (a, b) => a.due - b.due },
   active:    { label: 'In focus',  ic: 'play',  fn: t => t.status === 'pending' && !!t.start, sort: (a, b) => urg(b) - urg(a) },
   waiting:   { label: 'Snoozed',   ic: 'clock', fn: isWaiting, sort: (a, b) => a.wait - b.wait },
   completed: { label: 'Done',      ic: 'check', fn: t => t.status === 'completed', sort: (a, b) => (b.end || 0) - (a.end || 0) },
   all:       { label: 'Everything', ic: 'stack', fn: () => true, sort: (a, b) => (rank(a) - rank(b)) || (a.status === 'pending' ? urg(b) - urg(a) : (b.modified || 0) - (a.modified || 0)) },
+  progress:  { label: 'Progress',  ic: 'chart', fn: () => false, sort: () => 0 },
 };
 const rank = t => ({ pending: 0, completed: 1, deleted: 2 }[t.status] ?? 3);
 const ICONS = {
@@ -831,6 +1224,11 @@ const ICONS = {
   dup: '<rect x="2.5" y="2.5" width="8" height="8" rx="1.5"/><path d="M13.5 6v6a1.5 1.5 0 01-1.5 1.5H6M8 13.5"/>',
   expand: '<path d="M9.5 2.5h4v4M13.5 2.5L9 7M6.5 13.5h-4v-4M2.5 13.5L7 9"/>',
   eye: '<path d="M1.5 8s2.5-4.5 6.5-4.5S14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z"/><circle cx="8" cy="8" r="1.8"/>',
+  sun: '<circle cx="8" cy="8" r="3"/><path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/>',
+  repeat: '<path d="M2.5 7.5V7a3.5 3.5 0 013.5-3.5h7M11 1.5l2 2-2 2M13.5 8.5V9a3.5 3.5 0 01-3.5 3.5H3M5 14.5l-2-2 2-2"/>',
+  chart: '<path d="M2.5 13.5h11M4.5 11V8M8 11V4.5M11.5 11V6.5"/>',
+  mosque: '<path d="M8 1.8c1.6 1.3 3.2 2.3 3.2 4.2H4.8c0-1.9 1.6-2.9 3.2-4.2zM4.5 6.5h7v7h-7zM1.5 13.5h13M7 13.5v-2.3a1 1 0 012 0v2.3M2.5 13.5V7.5M13.5 13.5V7.5M2.5 7.5V6M13.5 7.5V6"/>',
+  gear: '<circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v2M8 12.2v2M1.8 8h2M12.2 8h2M3.6 3.6L5 5M11 11l1.4 1.4M3.6 12.4L5 11M11 5l1.4-1.4"/>',
 };
 const icon = (n, cls = 'ic') => `<svg class="${cls}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]}</svg>`;
 
@@ -882,13 +1280,17 @@ function greeting() {
   return h < 5 ? 'Burning the midnight oil' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : h < 22 ? 'Good evening' : 'Hey, night owl';
 }
 function status() {
-  const pend = tasks.filter(t => t.status === 'pending' && !isWaiting(t));
+  const pend = tasks.filter(isOpen);
   const over = pend.filter(t => t.due && t.due < Date.now()).sort((a, b) => urg(b) - urg(a));
   const active = pend.find(t => t.start);
   const dueToday = pend.filter(t => t.due && t.due <= eod(Date.now()));
   const top = [...pend].sort((a, b) => urg(b) - urg(a))[0];
   const h = new Date().getHours();
   const q = t => `<b>${esc(t.description.length > 48 ? t.description.slice(0, 46) + '…' : t.description)}</b>`;
+  const pr = prayerToday();
+  if (pr?.next && pr.next.name !== 'sunrise' && pr.next.inMin <= 20) return ['happy', `🕌 <b>${PRAYER_LABEL[pr.next.name].en}</b> in ${fmtMins(pr.next.inMin)}. Time to get ready.`];
+  if (pr?.current && pr.current.name !== 'sunrise' && !pr.prayed.includes(pr.current.name) && pr.nowMin - pr.current.at <= 90)
+    return ['happy', `It’s time for <b>${PRAYER_LABEL[pr.current.name].en}</b> 🤲 Tick it off when you’ve prayed.`];
   if (!pend.length) return [h >= 22 || h < 5 ? 'sleepy' : 'excited', pick(['Nothing on the board. Go do something fun.', 'All clear! I’m almost bored.', 'Empty list, full heart.'])];
   if (active) return ['happy', `In the zone on ${q(active)}. Keep going!`];
   if (over.length) return ['worried', over.length === 1 ? `${q(over[0])} is overdue. Knock it out?` : `${over.length} things are overdue. Start with ${q(over[0])}?`];
@@ -897,22 +1299,36 @@ function status() {
   return ['happy', `Next up: ${q(top)}`];
 }
 function streak() {
-  const days = new Set(tasks.filter(t => t.status === 'completed' && t.end).map(t => sod(t.end)));
+  // A day counts when you finished a task or a routine
+  const days = new Set(tasks.filter(t => t.status === 'completed' && t.end).map(t => dayKey(t.end)));
+  for (const t of tasks) if (t.routine && t.status !== 'deleted') for (const k of t.doneOn || []) days.add(k);
   const today = sod(Date.now());
-  const doneToday = tasks.filter(t => t.status === 'completed' && t.end >= today).length;
-  let d = days.has(today) ? today : sod(today - 1), n = 0;
-  while (days.has(d)) { n++; d = sod(d - 1); }
-  return { n, doneToday, lit: days.has(today) };
+  const finished = tasks.filter(t => (t.status === 'completed' && t.end >= today) || (t.status === 'pending' && doneToday(t))).length;
+  let d = days.has(dayKey(today)) ? today : sod(today - 1), n = 0;
+  while (days.has(dayKey(d))) { n++; d = sod(d - 1); }
+  return { n, doneToday: finished, lit: days.has(dayKey(today)) };
+}
+// Today's progress: routines, today's tasks (due by today, or finished today) and prayers
+function todayProgress() {
+  const t0 = sod(Date.now()), tEnd = eod(Date.now());
+  const routines = tasks.filter(t => t.routine && t.status === 'pending');
+  const rDone = routines.filter(doneToday).length;
+  const tasksToday = tasks.filter(t => !t.routine && ((t.status === 'pending' && !isWaiting(t) && t.due && t.due <= tEnd) || (t.status === 'completed' && t.end >= t0)));
+  const tDone = tasksToday.filter(t => t.status === 'completed').length;
+  const p = prayerToday();
+  const pTotal = p ? 5 : 0, pDone = p ? p.prayed.length : 0;
+  const total = routines.length + tasksToday.length + pTotal, done = rDone + tDone + pDone;
+  return { routines: [rDone, routines.length], tasks: [tDone, tasksToday.length], prayers: [pDone, pTotal], done, total, frac: total ? done / total : 0 };
 }
 function renderHero() {
   $('#hello').textContent = greeting();
   if (Date.now() >= sayLock) { const [mood, line] = status(); setBuddy(mood); $('#bubble').innerHTML = line; }
   const s = streak();
-  const left = tasks.filter(t => t.status === 'pending' && !isWaiting(t) && t.due && t.due <= eod(Date.now())).length;
-  const goal = Math.max(1, s.doneToday + left);
-  const frac = s.doneToday / goal, C = 2 * Math.PI * 12;
+  const tp = todayProgress();
+  const frac = tp.total ? tp.frac : (s.doneToday ? 1 : 0), C = 2 * Math.PI * 12;
+  $('#dates').innerHTML = datesLine();
   $('#scores').innerHTML = `
-    <div class="score" title="Tasks finished today">
+    <div class="score" title="Today: ${tp.done} of ${tp.total} done (routines, today’s tasks and prayers)">
       <svg class="ring" viewBox="0 0 30 30"><circle class="bgc" cx="15" cy="15" r="12"/><circle class="fg" cx="15" cy="15" r="12" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - frac)}"/></svg>
       <div><div class="big">${s.doneToday}</div><div class="small">done today</div></div>
     </div>
@@ -964,6 +1380,7 @@ const sfx = {
   party: () => tone([523, 659, 784, 1047], { gap: .08, vol: .07 }),
   add: () => tone([660], { dur: .05, vol: .05, type: 'triangle' }),
   start: () => tone([440, 660], { gap: .06, vol: .05, type: 'triangle' }),
+  adhan: () => tone([523, 659, 784, 1047, 784], { gap: .32, dur: .55, vol: .06 }),
 };
 const CHEERS = ['Nailed it!', 'Tacked down! 📌', 'One less thing.', 'Look at you go!', 'Done & dusted.', 'Boom. ✨', 'Crushed it.', 'Easy peasy.', 'Another one bites the dust.', 'Smooth.', 'You’re on a roll!', 'Chef’s kiss. 👌'];
 
@@ -1080,15 +1497,18 @@ function addTask(mods, log) {
   const desc = mods.words.join(' ');
   if (mods.errors.length) return { kind: 'error', html: `<span class="err">${esc(mods.errors[0])}</span>` };
   if (!desc) return { kind: 'error', html: `<span class="err">What’s the task? Give it a name.</span>` };
+  // "… every day" without a time of day becomes a daily routine (it resets every morning)
+  const routineAdd = !log && mods.set.recur === 'daily' && !(mods.set.due && hasTime(mods.set.due));
   return {
     kind: 'add',
-    html: `<span class="verb">${log ? 'Log as done' : 'Add'}</span> “${esc(desc)}” ${pills(describeMods(mods))}<span class="tip">· ↵</span>`,
+    html: `<span class="verb">${log ? 'Log as done' : 'Add'}</span> “${esc(desc)}” ${pills(routineAdd ? [...describeMods({ ...mods, set: Object.fromEntries(Object.entries(mods.set).filter(([k]) => k !== 'due' && k !== 'recur')) }), '↻ daily routine'] : describeMods(mods))}<span class="tip">· ↵</span>`,
     run: () => {
       const t = { uuid: uid(), description: desc, status: log ? 'completed' : 'pending', entry: Date.now(), modified: Date.now(), tags: [], annotations: [], depends: [] };
       if (log) t.end = Date.now();
       if (!log && st.project && !('project' in mods.set)) mods.set.project = st.project;
       if (!log && st.tag && !mods.addTags.includes(st.tag)) mods.addTags.push(st.tag);
       applyMods(t, { ...mods, words: [] }, false);
+      if (routineAdd) { t.routine = true; delete t.recur; delete t.due; }
       mutate(() => tasks.push(t));
       st.fresh = t.uuid; st.sel = t.uuid;
       renderList();
@@ -1173,7 +1593,10 @@ function complete(t) {
     }
   }
 }
-function reopen(t) { t.status = 'pending'; delete t.end; t.modified = Date.now(); }
+function reopen(t) {
+  if (t.routine) { t.doneOn = (t.doneOn || []).filter(k => k !== todayKey()); t.modified = Date.now(); return; } // un-tick today only
+  t.status = 'pending'; delete t.end; t.modified = Date.now();
+}
 
 function celebrateAt(el, small) {
   const r = el?.getBoundingClientRect();
@@ -1181,7 +1604,7 @@ function celebrateAt(el, small) {
 }
 // Finish a task with a little ceremony: check pop, confetti, sound, then it slides away.
 function finish(t, row) {
-  if (completing.has(t.uuid) || t.status !== 'pending') return;
+  if (completing.has(t.uuid) || t.status !== 'pending' || doneToday(t)) return;
   completing.add(t.uuid);
   const check = row?.querySelector('.check');
   // If the list shows finished tasks, the row stays and moves down into "Done" instead of sliding away
@@ -1190,12 +1613,12 @@ function finish(t, row) {
   if (keep) row?.classList.add('keep');
   celebrateAt(check || row);
   sfx.done();
-  const wasNext = tasks.filter(x => x.status === 'pending' && !isWaiting(x)).length;
+  const wasNext = tasks.filter(isOpen).length;
   setTimeout(() => {
     completing.delete(t.uuid);
     if (keep) st.fresh = t.uuid;
-    mutate(() => complete(t));
-    const left = tasks.filter(x => x.status === 'pending' && !isWaiting(x)).length;
+    mutate(() => t.routine ? markRoutineDone(t) : complete(t));
+    const left = tasks.filter(isOpen).length;
     const s = streak();
     if (wasNext > 0 && left === 0) {
       confetti(innerWidth / 2, innerHeight / 3, 90, 2.2);
@@ -1207,7 +1630,7 @@ function finish(t, row) {
         : s.doneToday === 5 ? 'Five today. You’re unstoppable.'
         : s.doneToday === 10 ? 'TEN today?! Legend.' : pick(CHEERS);
       say(line, 'excited');
-      toast(t.recur ? `Done! Next one’s ${fmtRel(advance(t.due, t.recur))}.` : pick(CHEERS), true);
+      toast(t.routine ? `Done for today! 🔥 ${routineStreak(t).cur}-day streak` : t.recur ? `Done! Next one’s ${fmtRel(advance(t.due, t.recur))}.` : pick(CHEERS), true);
     }
     if (st.open === t.uuid) openDrawer(t.uuid);
   }, row ? 520 : 0);
@@ -1246,6 +1669,7 @@ function render() {
   renderHero();
   renderFocus();
   renderMini();
+  renderPrayers();
 }
 function renderStats() {
   const pend = tasks.filter(t => t.status === 'pending');
@@ -1288,12 +1712,15 @@ function currentTitle() {
   return VIEWS[st.view].label;
 }
 let openCount = 0;
-const homeShowsDone = () => prefs.finished !== 'hidden' && !st.filter && (st.project || st.tag || st.view === 'next');
+const homeShowsDone = () => prefs.finished !== 'hidden' && !st.filter && (st.project || st.tag || st.view === 'next' || st.view === 'home');
 const doneSince = () => prefs.finished === 'week' ? sod(sod(Date.now()) - 6 * DAY + 12 * 36e5) : sod(Date.now());
 const inScope = t => st.project ? (t.project === st.project || (t.project || '').startsWith(st.project + '.')) : st.tag ? t.tags.includes(st.tag) : true;
 function renderList() {
   $('#title').textContent = currentTitle();
   const v = VIEWS[st.view];
+  const plain = !st.project && !st.tag && !st.filter;
+  if (plain && st.view === 'progress') { visible = []; openCount = tasks.filter(isOpen).length; $('#list').innerHTML = progressHtml(); renderStats(); return; }
+  if (plain && st.view === 'home' && tasks.some(t => t.status !== 'deleted')) return renderHome();
   let base;
   if (st.project || st.tag) base = t => t.status === 'pending' && (st.project ? (t.project === st.project || (t.project || '').startsWith(st.project + '.')) : t.tags.includes(st.tag));
   else base = v.fn;
@@ -1306,7 +1733,7 @@ function renderList() {
   visible.sort((a, b) => byUrg ? (rank(a) - rank(b)) || urgs.get(b.uuid) - urgs.get(a.uuid) : v.sort(a, b));
   openCount = visible.length;
   // Home-like lists keep recently finished tasks underneath, so the wins stay in sight
-  const doneRows = homeShowsDone() ? tasks.filter(t => t.status === 'completed' && t.end >= doneSince() && inScope(t)).sort((a, b) => b.end - a.end) : [];
+  const doneRows = homeShowsDone() ? tasks.filter(t => ((t.status === 'completed' && t.end >= doneSince()) || doneToday(t)) && inScope(t)).sort((a, b) => (b.end || b.modified) - (a.end || a.modified)) : [];
   const firstDone = doneRows[0]?.uuid;
   visible.push(...doneRows);
   if (st.sel && !visible.some(t => t.uuid === st.sel)) st.sel = null;
@@ -1317,35 +1744,139 @@ function renderList() {
   if (!openCount && doneRows.length) h += `<div class="clear-note"><div class="buddy">${mascot('excited')}</div><div><b>All clear!</b> Look at everything you got done 👇</div></div>`;
   for (const t of visible) {
     if (t.uuid === firstDone) h += `<div class="done-head"><span class="n">✓ ${doneRows.length}</span> done ${prefs.finished === 'week' ? 'this week' : 'today'}<span class="hint">${['nice work', 'keep it up', 'look at you go', 'on a roll', 'unstoppable'][Math.min(4, doneRows.length - 1)]}</span></div>`;
-    const id = CTX.idOf.get(t.uuid);
-    const u = urgs.get(t.uuid);
-    let dueCls = '', dueTxt = '';
-    if (showDone || t.status !== 'pending') dueTxt = t.end ? fmtRel(t.end) : '';
-    else if (isWaiting(t)) dueTxt = '💤 ' + fmtRel(t.wait);
-    else if (t.due) { dueTxt = fmtRel(t.due); dueCls = t.due < Date.now() ? 'over' : t.due < eod(Date.now() + DAY) ? 'soon' : ''; if (dueCls === 'over' && !/ago/.test(dueTxt)) dueTxt = 'overdue'; }
-    const chips = [];
-    if (t.project) chips.push(`<button class="chip proj" data-go-proj="${esc(t.project)}">@${esc(t.project)}</button>`);
-    for (const g of t.tags) chips.push(`<button class="chip" data-go-tag="${esc(g)}">#${esc(g)}</button>`);
-    if (t.status === 'pending' && isBlocked(t)) chips.push(`<span class="chip warn" title="Waiting on another task">⛓ blocked</span>`);
-    if (t.recur) chips.push(`<span class="chip" title="Repeats">↻ ${esc(t.recur)}</span>`);
-    const pend = t.status === 'pending';
-    h += `<div class="row ${t.status === 'completed' ? 'done' : ''} ${t.status === 'deleted' ? 'deleted' : ''} ${st.sel === t.uuid ? 'sel' : ''} ${st.fresh === t.uuid ? 'fresh' : ''} ${completing.has(t.uuid) ? 'completing' : ''}" data-uuid="${t.uuid}">
-      <button class="check" data-act="toggle" aria-label="${pend ? 'Finish' : 'Reopen'}" title="${pend ? 'Finish' : 'Reopen'}"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.3l2.3 2.3 4.7-5"/></svg></button>
-      <span class="id">${id || ''}</span>
-      <div class="body">${t.start && pend ? '<span class="live" title="In focus"></span>' : ''}<span class="desc">${esc(t.description)}</span>${t.annotations.length ? `<span class="note" title="${t.annotations.length} note(s)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3.5h10v7H7l-3 2.5v-2.5H3z"/></svg>${t.annotations.length}</span>` : ''}<span class="chips">${chips.join('')}</span></div>
-      <span class="due ${dueCls}" title="${t.due ? esc(fmtAbs(t.due)) : ''}">${esc(dueTxt)}</span>
-      <span class="pri ${t.priority || ''}" title="${t.priority ? PRI_NAME[t.priority] : ''}">${t.priority ? '!'.repeat({ H: 3, M: 2, L: 1 }[t.priority]) : ''}</span>
-      <span class="urg">${pend ? `${u.toFixed(1)}<i style="--w:${Math.max(0, Math.min(100, u / maxU * 100))}%"></i>` : ''}</span>
-      ${pend ? `<div class="acts">
-        <button data-act="start" title="${t.start ? 'Stop focus' : 'Focus on this (s)'}">${icon(t.start ? 'stop' : 'start', '')}${t.start ? 'Stop' : 'Focus'}</button>
-        <button data-act="snooze" title="Push to tomorrow">${icon('snooze', '')}Tomorrow</button>
-        <button class="bad" data-act="delete" title="Delete (x)">${icon('trash', '')}</button>
-      </div>` : ''}
-    </div>`;
+    h += rowHtml(t, { urgs, maxU, showDone });
   }
   $('#list').innerHTML = h;
   st.fresh = null;
   renderStats();
+}
+const COLHEAD = `<div class="colhead"><span></span><span style="text-align:right">#</span><span>Task</span><span>When</span><span style="text-align:center">!</span><span title="Urgency: how much this needs you">Urgency</span></div>`;
+function rowHtml(t, o) {
+  const id = CTX.idOf.get(t.uuid);
+  const u = o.urgs.get(t.uuid) || 0;
+  const doneNow = t.status === 'completed' || doneToday(t);
+  const pend = t.status === 'pending' && !doneNow;
+  let dueCls = '', dueTxt = '';
+  if (t.routine && t.status === 'pending') { const s = routineStreak(t); dueTxt = s.cur ? `🔥 ${s.cur} day${s.cur > 1 ? 's' : ''}` : 'every day'; dueCls = s.cur ? 'soon' : ''; }
+  else if (o.showDone || t.status !== 'pending') dueTxt = t.end ? fmtRel(t.end) : '';
+  else if (isWaiting(t)) dueTxt = '💤 ' + fmtRel(t.wait);
+  else if (t.due) { dueTxt = fmtRel(t.due); dueCls = t.due < Date.now() ? 'over' : t.due < eod(Date.now() + DAY) ? 'soon' : ''; if (dueCls === 'over' && !/ago/.test(dueTxt)) dueTxt = 'overdue'; }
+  const chips = [];
+  if (t.routine) chips.push(`<span class="chip proj" title="Daily routine: comes back every day">↻ daily</span>`);
+  if (t.project) chips.push(`<button class="chip proj" data-go-proj="${esc(t.project)}">@${esc(t.project)}</button>`);
+  for (const g of t.tags) chips.push(`<button class="chip" data-go-tag="${esc(g)}">#${esc(g)}</button>`);
+  if (pend && isBlocked(t)) chips.push(`<span class="chip warn" title="Waiting on another task">⛓ blocked</span>`);
+  if (t.recur) chips.push(`<span class="chip" title="Repeats">↻ ${esc(t.recur)}</span>`);
+  return `<div class="row ${doneNow ? 'done' : ''} ${t.status === 'deleted' ? 'deleted' : ''} ${st.sel === t.uuid ? 'sel' : ''} ${st.fresh === t.uuid ? 'fresh' : ''} ${completing.has(t.uuid) ? 'completing' : ''}" data-uuid="${t.uuid}">
+      <button class="check" data-act="toggle" aria-label="${pend ? 'Finish' : 'Reopen'}" title="${pend ? (t.routine ? 'Done for today' : 'Finish') : (t.routine ? 'Not done yet' : 'Reopen')}"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.3l2.3 2.3 4.7-5"/></svg></button>
+      <span class="id">${id || ''}</span>
+      <div class="body">${t.start && pend ? '<span class="live" title="In focus"></span>' : ''}<span class="desc">${esc(t.description)}</span>${t.annotations.length ? `<span class="note" title="${t.annotations.length} note(s)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3.5h10v7H7l-3 2.5v-2.5H3z"/></svg>${t.annotations.length}</span>` : ''}<span class="chips">${chips.join('')}</span></div>
+      <span class="due ${dueCls}" title="${t.due ? esc(fmtAbs(t.due)) : t.routine ? `Best streak: ${routineStreak(t).best} days` : ''}">${esc(dueTxt)}</span>
+      <span class="pri ${t.priority || ''}" title="${t.priority ? PRI_NAME[t.priority] : ''}">${t.priority ? '!'.repeat({ H: 3, M: 2, L: 1 }[t.priority]) : ''}</span>
+      <span class="urg">${pend ? `${u.toFixed(1)}<i style="--w:${Math.max(0, Math.min(100, u / (o.maxU || 10) * 100))}%"></i>` : ''}</span>
+      ${pend ? `<div class="acts">
+        <button data-act="start" title="${t.start ? 'Stop focus' : 'Focus on this (s)'}">${icon(t.start ? 'stop' : 'start', '')}${t.start ? 'Stop' : 'Focus'}</button>
+        ${t.routine ? '' : `<button data-act="snooze" title="Push to tomorrow">${icon('snooze', '')}Tomorrow</button>`}
+        <button class="bad" data-act="delete" title="Delete (x)">${icon('trash', '')}</button>
+      </div>` : ''}
+    </div>`;
+}
+
+/* ---------- Today (home) ----------
+   Everything for today on one page: progress, daily routines (done or not), all open tasks, and what you finished. */
+function renderHome() {
+  const urgs = new Map(tasks.map(t => [t.uuid, urg(t)]));
+  const routines = tasks.filter(t => t.routine && t.status === 'pending').sort((a, b) => (doneToday(a) - doneToday(b)) || a.entry - b.entry);
+  const open = tasks.filter(t => isOpen(t) && !t.routine).sort((a, b) => urgs.get(b.uuid) - urgs.get(a.uuid));
+  const finished = prefs.finished === 'hidden' ? [] : tasks.filter(t => !t.routine && t.status === 'completed' && t.end >= doneSince()).sort((a, b) => b.end - a.end);
+  const maxU = Math.max(10, ...open.map(t => urgs.get(t.uuid)));
+  const o = { urgs, maxU };
+  const tp = todayProgress();
+  visible = [...routines, ...open, ...finished];
+  openCount = open.length + routines.filter(t => !doneToday(t)).length;
+  if (st.sel && !visible.some(t => t.uuid === st.sel)) st.sel = null;
+  const pct = Math.round(tp.frac * 100);
+  const part = ([d, n], label) => n ? `<span><b>${d}/${n}</b> ${label}</span>` : '';
+  let h = `<div class="today-card">
+      <div class="pct">${tp.total ? pct + '%' : '—'}</div>
+      <div class="bar" title="${tp.done} of ${tp.total} done today"><i style="--w:${pct}%"></i></div>
+      <div class="parts">${part(tp.routines, 'routines')}${part(tp.tasks, 'tasks due today')}${part(tp.prayers, 'prayers')}${tp.total ? '' : '<span>Nothing scheduled for today yet</span>'}
+        ${tp.total && tp.done === tp.total ? '<span>🎉 Everything done today. ما شاء الله</span>' : ''}</div>
+    </div>`;
+  h += routineTipHtml();
+  if (routines.length) {
+    const d = routines.filter(doneToday).length;
+    h += `<div class="sec-head">↻ Daily routines <span class="n">${d}/${routines.length}</span><span class="hint">${d === routines.length ? 'all done today 🌙' : 'they come back every day'}</span></div>`;
+    h += routines.map(t => rowHtml(t, o)).join('');
+  }
+  h += `<div class="sec-head">Tasks <span class="n">${open.length}</span><span class="hint">${open.length ? 'most urgent first' : 'nothing open'}</span></div>`;
+  h += open.length ? COLHEAD + open.map(t => rowHtml(t, o)).join('') : `<div class="clear-note"><div class="buddy">${mascot('excited')}</div><div><b>All clear!</b> Nothing open right now.</div></div>`;
+  if (finished.length) {
+    h += `<div class="done-head"><span class="n">✓ ${finished.length}</span> done ${prefs.finished === 'week' ? 'this week' : 'today'}<span class="hint">${['nice work', 'keep it up', 'look at you go', 'on a roll', 'unstoppable'][Math.min(4, finished.length - 1)]}</span></div>`;
+    h += finished.map(t => rowHtml(t, o)).join('');
+  }
+  $('#list').innerHTML = h;
+  st.fresh = null;
+  renderStats();
+}
+// One-time helper card: turn existing tasks into daily routines (only what you tick; nothing changes otherwise)
+function routineTipHtml() {
+  if (LS.get('tack.routineTipDone', false) || tasks.some(t => t.routine)) return '';
+  const candidates = tasks.filter(t => t.status !== 'deleted' && !t.routine && !t.recur).slice(0, 14);
+  if (!candidates.length) return '';
+  return `<div class="tip-card" id="routineTip">
+      <h4>↻ Want some tasks to come back every day?</h4>
+      <p>Tick the ones you do daily. They’ll reset each morning, keep a streak, and count in today’s progress.</p>
+      ${candidates.map(t => `<label><input type="checkbox" value="${t.uuid}"> ${esc(t.description)}${t.status === 'completed' ? ' <span style="color:var(--faint)">(done)</span>' : ''}</label>`).join('')}
+      <div class="acts2"><button class="btn primary" data-tip="make">Make daily</button><button class="btn" data-tip="no">Not now</button></div>
+      <p style="margin:8px 0 0;font-size:12px">You can also right-click any task → <b>Repeat every day</b>, or type <code>Read Quran every day</code>.</p>
+    </div>`;
+}
+
+/* ---------- Progress ---------- */
+function progressHtml() {
+  const days = [];
+  for (let i = 13; i >= 0; i--) days.push(sod(sod(Date.now()) - i * DAY + 12 * 36e5));
+  const routines = tasks.filter(t => t.routine && t.status !== 'deleted');
+  const prayed = LS.get('tack.prayed', {});
+  const dayStats = days.map(d => {
+    const k = dayKey(d), end = eod(d);
+    const active = routines.filter(t => sod(t.entry) <= d);
+    const rDone = active.filter(t => (t.doneOn || []).includes(k)).length;
+    const tDone = tasks.filter(t => !t.routine && t.status === 'completed' && t.end >= d && t.end <= end).length;
+    const p = (prayed[k] || []).length;
+    const goal = active.length + (prayerCfg().lat != null ? 5 : 0);
+    return { d, k, rDone, rTotal: active.length, tDone, p, frac: goal ? (rDone + p) / goal : (tDone ? 1 : 0) };
+  });
+  const week = dayStats.slice(-7);
+  const tasksWeek = week.reduce((s, x) => s + x.tDone, 0);
+  const prayersWeek = week.reduce((s, x) => s + x.p, 0);
+  const best = routines.reduce((b, t) => Math.max(b, routineStreak(t).best), 0);
+  const s = streak();
+  const tp = todayProgress();
+  const W = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  let h = `<div class="pg-cards">
+      <div class="pg-card"><div class="big">${tp.total ? Math.round(tp.frac * 100) + '%' : '—'}</div><div class="small">today (${tp.done}/${tp.total})</div></div>
+      <div class="pg-card"><div class="big">${tasksWeek}</div><div class="small">tasks finished in 7 days</div></div>
+      <div class="pg-card"><div class="big">${prayersWeek}<span style="font-size:14px;color:var(--faint)">/35</span></div><div class="small">prayers ticked in 7 days</div></div>
+      <div class="pg-card"><div class="big">🔥 ${s.n}</div><div class="small">day streak · best routine ${best}</div></div>
+    </div>
+    <div class="pg-title">Last 14 days · bar = routines + prayers done · dots = prayers</div>
+    <div class="pg-days">${dayStats.map(x => `<div class="pg-day ${x.k === todayKey() ? 'today' : ''}" title="${fmtAbs(x.d)}: ${x.rDone}/${x.rTotal} routines, ${x.p}/5 prayers, ${x.tDone} tasks">
+        <div class="col"><i style="--h:${Math.round(x.frac * 100)}%"></i></div>
+        <div class="dots">${[0, 1, 2, 3, 4].map(i => `<b class="${i < x.p ? 'on' : ''}"></b>`).join('')}</div>
+        <span>${W[new Date(x.d).getDay()]}${new Date(x.d).getDate()}</span>
+        <span>${x.tDone ? '✓' + x.tDone : ''}</span></div>`).join('')}</div>`;
+  if (routines.length) {
+    h += `<div class="pg-title">Routines · last 14 days</div><table class="pg-table">${routines.map(t => {
+      const r = routineStreak(t);
+      return `<tr><td>${esc(t.description)}</td><td><span class="pg-sq">${days.map(d => `<b class="${(t.doneOn || []).includes(dayKey(d)) ? 'on' : ''}" title="${fmtAbs(d)}"></b>`).join('')}</span></td><td>🔥 ${r.cur} · best ${r.best}</td></tr>`;
+    }).join('')}</table>`;
+  } else h += `<p style="color:var(--muted);margin:16px 4px">No daily routines yet. Right-click a task → <b>Repeat every day</b> to start tracking streaks.</p>`;
+  if (prayerCfg().lat != null) {
+    h += `<div class="pg-title">Prayers · last 7 days</div><table class="pg-table">${PRAYER_KEYS.map(n => `<tr><td>${PRAYER_LABEL[n].ar} · ${PRAYER_LABEL[n].en}</td><td><span class="pg-sq">${week.map(x => `<b class="${(prayed[x.k] || []).includes(n) ? 'on' : ''}" title="${fmtAbs(x.d)}"></b>`).join('')}</span></td><td>${week.filter(x => (prayed[x.k] || []).includes(n)).length}/7</td></tr>`).join('')}</table>`;
+  }
+  return h;
 }
 function emptyState() {
   if (st.filter) return `<div class="empty"><div class="buddy">${mascot('worried')}</div><h3>Nothing matches</h3><p>I looked everywhere for <code>${esc(st.filter)}</code>.</p></div>`;
@@ -1355,7 +1886,10 @@ function emptyState() {
     <p style="margin-top:14px"><code>Call mom tomorrow at 6pm</code> &nbsp; <code>Pay rent every month !!</code> &nbsp; <code>Groceries #errand</code></p>
     <p style="margin-top:14px;font-size:12.5px">Everything you add is saved automatically. Press <code>?</code> for tips.</p></div>`;
   const e = {
+    home: ['excited', 'All clear!', 'Nothing on your plate. Add something, or go enjoy the day.'],
     next: ['excited', 'All clear!', 'Nothing on your plate. Add something, or go enjoy the day.'],
+    routines: ['happy', 'No daily routines yet', 'Type <code>Read Quran every day</code>, or right-click any task → <b>Repeat every day</b>. Routines come back fresh every morning and build streaks.'],
+    progress: ['happy', 'No progress yet', 'Finish a task or tick a prayer to start your history.'],
     today: ['happy', 'Nothing due soon', 'No deadlines today or tomorrow. Breathe.'],
     active: ['sleepy', 'Nothing in focus', 'Hover a task and press <b>Focus</b> to start a timer.'],
     waiting: ['sleepy', 'Nothing snoozed', 'Hide a task until later by adding <code>wait:monday</code>.'],
@@ -1410,7 +1944,7 @@ function openDrawer(u) {
     if (k === 'due') f += `<div class="quick">${QUICK_DUE.map(([l, v]) => `<button data-qdue="${v}">${l}</button>`).join('')}</div>`;
     f += '</div>';
   }
-  const pend = t.status === 'pending';
+  const pend = t.status === 'pending' && !doneToday(t);
   $('#drawer').innerHTML = `
     <div class="d-head"><span class="tid">${id ? 'Task #' + id : t.uuid.slice(0, 8)}</span><span class="status ${t.status}">${isWaiting(t) ? 'snoozed' : t.status === 'pending' ? 'open' : t.status}${t.start && pend ? ' · in focus' : ''}</span>
       <button class="x" data-d="close" aria-label="Close" title="Close (Esc)"><svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg></button></div>
@@ -1419,6 +1953,7 @@ function openDrawer(u) {
       <div class="d-actions">
         ${pend ? `<button class="btn primary" data-d="done"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.3l2.3 2.3 4.7-5"/></svg>Done</button>
         <button class="btn" data-d="start">${icon(t.start ? 'stop' : 'start', '')}${t.start ? 'Stop focus' : 'Focus'}</button>` : `<button class="btn" data-d="reopen">Reopen</button>`}
+        ${t.status !== 'deleted' ? `<button class="btn" data-d="routine" title="A daily routine comes back unchecked every day">${icon('repeat', '')}${t.routine ? 'Daily ✓' : 'Make daily'}</button>` : ''}
         ${t.status !== 'deleted' ? `<button class="btn danger" data-d="delete">${icon('trash', '')}Delete</button>` : ''}
       </div>
       <div class="fields">${f}</div>
@@ -1619,10 +2154,24 @@ $('#sideNav').addEventListener('click', e => {
   else if (b.dataset.tag) goTo(st.tag === b.dataset.tag ? {} : { tag: b.dataset.tag });
 });
 $('#list').addEventListener('click', e => {
+  const tip = e.target.closest('[data-tip]');
+  if (tip) {
+    const picked = [...document.querySelectorAll('#routineTip input:checked')].map(i => byUuid(i.value)).filter(Boolean);
+    if (tip.dataset.tip === 'make' && !picked.length) return toast('Tick at least one task first');
+    if (tip.dataset.tip === 'make') {
+      mutate(() => { for (const t of picked) { t.routine = true; if (t.status === 'completed') { if (t.end) t.doneOn = [...new Set([...(t.doneOn || []), dayKey(t.end)])]; t.status = 'pending'; delete t.end; } delete t.due; delete t.recur; delete t.wait; t.modified = Date.now(); } }, `${picked.length} daily routine${picked.length > 1 ? 's' : ''} ↻`);
+      say('They’ll be back fresh every morning. 🌅', 'excited', 3500);
+    }
+    LS.set('tack.routineTipDone', true);
+    return render();
+  }
   const row = e.target.closest('.row'); if (!row) return;
   const t = byUuid(row.dataset.uuid); if (!t) return;
   const act = e.target.closest('[data-act]')?.dataset.act;
-  if (act === 'toggle') return t.status === 'pending' ? finish(t, row) : (mutate(() => reopen(t), 'Reopened'), say('Back on the board!', 'happy', 2000));
+  if (act === 'toggle') {
+    if (doneToday(t)) return mutate(() => reopen(t), 'Not done yet today');
+    return t.status === 'pending' ? finish(t, row) : (mutate(() => reopen(t), 'Reopened'), say('Back on the board!', 'happy', 2000));
+  }
   if (act === 'start') return toggleStart(t);
   if (act === 'snooze') return snooze(t);
   if (act === 'delete') return del(t);
@@ -1647,6 +2196,7 @@ $('#drawer').addEventListener('click', e => {
   if (d === 'reopen') { mutate(() => reopen(t), 'Reopened'); return openDrawer(t.uuid); }
   if (d === 'start') return toggleStart(t);
   if (d === 'delete') return del(t);
+  if (d === 'routine') { setRoutine(t, !t.routine); return openDrawer(t.uuid); }
   const pri = e.target.closest('[data-pri]');
   if (pri) { mutate(() => { if (pri.dataset.pri) t.priority = pri.dataset.pri; else delete t.priority; t.modified = Date.now(); }); return openDrawer(t.uuid); }
   const q = e.target.closest('[data-qdue]');
@@ -1696,6 +2246,7 @@ $('#swatches').addEventListener('click', e => {
 $('#optTheme').addEventListener('click', () => { prefs.theme = THEMES[(THEMES.indexOf(prefs.theme) + 1) % 3]; LS.set('tack.theme', prefs.theme); applyLook(); });
 $('#optSound').addEventListener('click', () => { prefs.sound = !prefs.sound; LS.set('tack.sound', prefs.sound); applyLook(); if (prefs.sound) sfx.done(); });
 const FINISHED = ['today', 'week', 'hidden'];
+$('#optPrayer').addEventListener('click', () => { $('#settings').classList.remove('on'); openPrayerSettings(); });
 $('#optFinished').addEventListener('click', () => { prefs.finished = FINISHED[(FINISHED.indexOf(prefs.finished) + 1) % 3]; LS.set('tack.finished', prefs.finished); applyLook(); render(); });
 $('#optExport').addEventListener('click', exportFile);
 if (disk) { $('#optData').hidden = false; $('#optData').addEventListener('click', () => disk.openFolder()); }
@@ -1752,6 +2303,9 @@ body { overflow: hidden; }
 .m-item.done .check svg { opacity: 1; color: #fff; }
 .m-item.done .m-desc { text-decoration: line-through; color: var(--faint); }
 .m-item.completing.keep { animation: none; }
+.m-prayer { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 10px; background: var(--hover); font-size: 12.5px; color: var(--muted); }
+.m-prayer b { color: var(--text); }
+.m-prayer .ar { margin-left: auto; font-weight: 600; color: var(--accent); }
 `;
 const clock = ms => { const s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600); return `${h ? h + ':' : ''}${String(Math.floor(s % 3600 / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; };
 function renderMini() {
@@ -1759,14 +2313,15 @@ function renderMini() {
   const d = pip.document, box = d.getElementById('mini');
   if (!box) return;
   const active = tasks.find(t => t.status === 'pending' && t.start);
-  const next = tasks.filter(t => t.status === 'pending' && !isWaiting(t) && t !== active).sort((a, b) => urg(b) - urg(a)).slice(0, 6);
-  const done = prefs.finished === 'hidden' ? [] : tasks.filter(t => t.status === 'completed' && t.end >= doneSince()).sort((a, b) => b.end - a.end).slice(0, 5);
-  const s = streak();
+  const next = tasks.filter(t => isOpen(t) && t !== active).sort((a, b) => urg(b) - urg(a)).slice(0, 6);
+  const done = prefs.finished === 'hidden' ? [] : tasks.filter(t => (t.status === 'completed' && t.end >= doneSince()) || doneToday(t)).sort((a, b) => (b.end || b.modified) - (a.end || a.modified)).slice(0, 5);
+  const s = streak(), tp = todayProgress(), pr = prayerToday();
   const keepAdd = d.activeElement?.id === 'mAdd' ? d.getElementById('mAdd').value : null;
   box.innerHTML = `
     <div class="m-head"><div class="buddy">${mascot(status()[0])}</div>
-      <div class="m-title">Running<small>${s.doneToday} done today${s.n ? ` · 🔥 ${s.n}` : ''}</small></div>
+      <div class="m-title">Running<small>${tp.total ? `${tp.done}/${tp.total} today` : `${s.doneToday} done today`}${s.n ? ` · 🔥 ${s.n}` : ''}</small></div>
       <button class="tool" data-m="unpin" title="Unpin: back to the full app (p)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5h4v4M13.5 2.5L9 7M6.5 13.5h-4v-4M2.5 13.5L7 9"/></svg></button></div>
+    ${pr ? `<div class="m-prayer" title="${esc(prayerCfg().placeName || '')}">🕌 <span><b>${PRAYER_LABEL[pr.next.name].en}</b> ${PrayerTimes.fmt(pr.next.at, prayerCfg().h12)} · ${pr.next.tomorrow ? 'tomorrow' : 'in ' + fmtMins(pr.next.inMin)}</span><span class="ar">${PRAYER_LABEL[pr.next.name].ar}</span></div>` : ''}
     ${active ? `<div class="m-focus" data-uuid="${active.uuid}"><div class="m-lbl"><span class="live"></span>In focus</div><div class="m-what">${esc(active.description)}</div>
       <div class="m-ctl"><span class="m-time" id="mTime">${clock(Date.now() - active.start)}</span><button class="btn" data-m="stop">Stop</button><button class="btn primary" data-m="done">Done</button></div></div>`
       : `<div class="m-idle">Nothing running. Press ▶ on a task to start a focus timer.</div>`}
@@ -1917,7 +2472,7 @@ function copyText(text) { navigator.clipboard.writeText(text).then(() => toast('
 const rowOf = (doc, t) => doc.querySelector(`.row[data-uuid="${t.uuid}"], .m-item[data-uuid="${t.uuid}"]`);
 
 function taskItems(t, doc) {
-  const pend = t.status === 'pending';
+  const pend = t.status === 'pending' && !doneToday(t);
   if (t.status === 'deleted') return [
     { label: 'Restore', icon: 'undo', action: () => mutate(() => reopen(t), 'Restored') },
     { label: 'Open details', icon: 'open', kbd: '↵', action: () => openDrawer(t.uuid) },
@@ -1932,6 +2487,7 @@ function taskItems(t, doc) {
     pend && { label: 'Push to tomorrow', icon: 'snooze', action: () => snooze(t) },
     pend && '-',
     doc === document && { label: 'Open details', icon: 'open', kbd: '↵', action: () => openDrawer(t.uuid) },
+    t.status !== 'deleted' && { label: t.routine ? 'Stop repeating daily' : 'Repeat every day', icon: 'repeat', action: () => setRoutine(t, !t.routine) },
     { label: 'Duplicate', icon: 'dup', action: () => duplicate(t) },
     { label: 'Copy text', icon: 'copy', action: () => copyText(t.description) },
     '-',
@@ -1953,6 +2509,7 @@ function appItems() {
     { label: prefs.sound ? 'Turn sounds off' : 'Turn sounds on', icon: 'sound', action: () => { prefs.sound = !prefs.sound; LS.set('tack.sound', prefs.sound); applyLook(); if (prefs.sound) sfx.done(); } },
     '-',
     { label: 'Undo', icon: 'undo', kbd: 'U', disabled: !undoStack.length, action: undo },
+    { label: 'Prayer times…', icon: 'mosque', action: () => openPrayerSettings() },
     { label: 'Help & shortcuts', icon: 'help', kbd: '?', action: () => $('#help').classList.add('on') },
   ];
 }
@@ -2028,6 +2585,7 @@ const onKey = e => {
   const tag = e.target.tagName;
   if (e.key === 'Escape') {
     if ($('#help').classList.contains('on')) return $('#help').classList.remove('on');
+    if ($('#prayerDlg').classList.contains('on')) return closePrayerSettings();
     if ($('#settings').classList.contains('on')) return $('#settings').classList.remove('on');
     if (tag === 'INPUT' || tag === 'TEXTAREA') { if (e.target !== cmd) e.target.blur(); return; }
     if (st.open) return closeDrawer();
@@ -2048,7 +2606,7 @@ const onKey = e => {
     '?': () => $('#help').classList.toggle('on'),
     j: () => moveSel(1), ArrowDown: () => moveSel(1), k: () => moveSel(-1), ArrowUp: () => moveSel(-1),
     Enter: () => t && openDrawer(t.uuid), o: () => t && openDrawer(t.uuid), e: () => t && openDrawer(t.uuid),
-    d: () => t && (t.status === 'pending' ? finish(t, row) : mutate(() => reopen(t), 'Reopened')),
+    d: () => t && (t.status === 'pending' && !doneToday(t) ? finish(t, row) : mutate(() => reopen(t), 'Reopened')),
     ' ': () => keys.d(),
     s: () => t && toggleStart(t),
     x: () => t && t.status !== 'deleted' && del(t), Delete: () => keys.x(),
@@ -2065,10 +2623,12 @@ bindDoc(document);
 
 // Keep relative times, urgency and the greeting fresh
 setInterval(() => { if (document.activeElement?.closest?.('#drawer') || completing.size) return; render(); }, 60000);
+setInterval(prayerTick, 20000);
 if (!VIEWS[st.view]) st.view = 'next';
 applyLook();
 render();
 refreshPreview();
+prayerTick();
 })();
 </script>
 </body>
